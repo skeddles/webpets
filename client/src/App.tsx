@@ -1,6 +1,7 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AppStateContext } from './hooks/AppState';
+import { useInitializeUser } from './hooks/initializeUser';
 import './App.css'
 
 type Theme = 'light' | 'dark';
@@ -15,6 +16,7 @@ import Home from './pages/Home';
 function App() {
 	const { state: { user } } = useContext(AppStateContext);
     const [theme, setTheme] = useState<Theme>('dark');
+	const initializeUser = useInitializeUser();
 
     // Update the `data-theme` attribute on the root element when the theme changes
     useEffect(() => {
@@ -25,6 +27,10 @@ function App() {
     const toggleTheme = () => {
         setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'))
     }
+
+	useEffect(() => {
+		initializeUser();
+	}, []);
 
 	return (<Router>
 			{user == 'loading' && <SplashScreen />}

@@ -2,10 +2,9 @@ import { createContext, useContext, useReducer, FC, ReactNode } from 'react';
 
 type User = {
 	_id: string;
-	name: string;
-	email: string;
-	createdAt: Date;
-	updatedAt: Date;
+	username: string;
+	token: string;
+	admin: boolean;
 };
 
 type AppState = {
@@ -13,15 +12,17 @@ type AppState = {
 };
 
 type SetUserAction = {type: 'SET_USER'; user: User};
-type Action = SetUserAction;
+type SetUnauthenticatedAction = {type: 'SET_UNAUTHENTICATED'};
+type Action = SetUserAction | SetUnauthenticatedAction;
 
-const stateReducer = (state:AppState, action:Action) => {
+const stateReducer = (state: AppState, action: Action): AppState => {
 	if (action.type === 'SET_USER') {
 		return { ...state, user: action.user };
 	}
-	else {
-		throw new Error(`Unhandled action type: ${action.type}`);
+	if (action.type === 'SET_UNAUTHENTICATED') {
+		return { ...state, user: 'unregistered' };
 	}
+	throw new Error(`Unhandled action type: ${(action as Action).type}`);
 };
 
 type StateContext = {
