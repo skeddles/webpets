@@ -5,8 +5,10 @@ export function useInitializeUser () {
 	const { dispatchState } = useContext(AppStateContext);
 
 	return async () => {
+		console.log('initializing user...');
 		const token = localStorage.getItem('token');
 		if (!token) {
+			console.log('no token found, setting user to unauthenticated');
 			return dispatchState({type: 'SET_UNAUTHENTICATED'});
 		}
 
