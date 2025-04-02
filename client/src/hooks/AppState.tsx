@@ -24,12 +24,12 @@ const stateReducer = (state:AppState, action:Action) => {
 	}
 };
 
-type StateContextType = {
+type StateContext = {
 	state: AppState;
 	dispatchState: React.Dispatch<Action>;
 };
 
-const StateContext = createContext<StateContextType>({
+export const AppStateContext = createContext<StateContext>({
 	state: { user: 'loading' },
 	dispatchState: () => undefined,
 });
@@ -43,14 +43,14 @@ export const AppStateProvider: FC<{ children: ReactNode }> = ({ children }) => {
 	};
 
 	return (
-		<StateContext.Provider value={contextValue}>
+		<AppStateContext.Provider value={contextValue}>
 			{children}
-		</StateContext.Provider>
+		</AppStateContext.Provider>
 	);
 };
 
 export const useAppState = () => {
-	const context = useContext(StateContext);
+	const context = useContext(AppStateContext);
 
 	if (context === undefined) throw new Error('useAppState must be used within an StateProvider');
 	if (context.state.user === 'loading') throw new Error('User not loaded yet');
