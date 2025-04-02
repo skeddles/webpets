@@ -17,7 +17,6 @@
 		--primary: #f6c43b;
 		--primary-dark: #582008;
 		--primary-text: var(--primary-dark);
-		
 	}
 
 	&[data-theme='light'] {

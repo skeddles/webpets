@@ -8,6 +8,8 @@ button {
 	cursor: pointer;
 	transition: transform 100ms cubic-bezier(.47,3,.41,.8), background-color 100ms ease-in;
 
+	margin: 1em 0;
+
 	font-family: "Dosis", sans-serif;
 	font-optical-sizing: auto;
 	font-weight: 800;
