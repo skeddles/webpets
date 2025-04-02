@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AppStateContext } from './hooks/AppState';
 import { useInitializeUser } from './hooks/initializeUser';
@@ -17,6 +17,7 @@ function App() {
 	const { state: { user } } = useContext(AppStateContext);
     const [theme, setTheme] = useState<Theme>('dark');
 	const initializeUser = useInitializeUser();
+	const userInitialized = useRef(false);
 
     // Update the `data-theme` attribute on the root element when the theme changes
     useEffect(() => {
@@ -29,6 +30,8 @@ function App() {
     }
 
 	useEffect(() => {
+		if (userInitialized.current) return;
+		userInitialized.current = true;
 		initializeUser();
 	}, []);
 
