@@ -1,0 +1,38 @@
+button {
+	background-color: var(--primary);
+	border: none;
+	border-radius: 0.4em;
+	padding: 0.5em 1em;
+	font-weight: 600;
+	font-size: 1.25rem;
+	cursor: pointer;
+	transition: transform 100ms cubic-bezier(.47,3,.41,.8), background-color 100ms ease-in;
+
+	font-family: "Dosis", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 800;
+	font-style: normal;
+
+	color: var(--primary-text);
+
+	border-bottom: 0.125em solid color-mix(in srgb, var(--primary), var(--primary-dark) 50%);
+
+	box-shadow: 0 0.25em 0.5em color-mix(in srgb, var(--bg), black, 20%);
+
+	&:not(:disabled) {
+		&:hover {
+			background-color: color-mix(in srgb, var(--primary), white 20%);
+			transform: scale(1.05);
+		}
+		&:active {
+			background-color: color-mix(in srgb, var(--primary), black 20%);
+			transform: scale(0.95);
+		}
+	}
+
+	&:disabled {
+		background-color: #f6c43b;
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+}

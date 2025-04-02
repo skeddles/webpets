@@ -1,32 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Fredoka:wght@300..700&display=swap');
+@import 'css/button';
+
 :root {
 	font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
 	line-height: 1.5;
 	font-weight: 400;
+	font-size: 18px;
 
 	color-scheme: light dark;
 
 	&[data-theme='dark'] {
-		--bg: #0d0d23;
+		--bg: #171730;
+		--text: #bccdfc;
+		--bg-shadow: #000000;
+
 		--primary: #f6c43b;
-		--text: #ffffff;
+		--primary-dark: #582008;
+		--primary-text: var(--primary-dark);
+		
 	}
 
 	&[data-theme='light'] {
 		--bg: #ffffff;
-		--primary: #130e98;
-		--text: #1a1a1b;
+		--text: #2d2d30;
+		--bg-shadow: #ffffff;
+
+		--primary: #2e2e7a;
+		--primary-dark: #08080f;
+		--primary-text: var(--bg);
 	}
 
 	color: var(--text);
 	background-color: var(--bg);
+
+	font-family: "Fredoka", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: normal;
+	font-variation-settings: "wdth" 100;
 }
+
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Dosis", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 800;
+	font-style: normal;
+	color: var(--primary);
+	margin: 2em 0 0.5em;
+	text-shadow: color-mix(in srgb, var(--bg), var(--bg-shadow) 50%) 0.05em 0.05em 0 ;
+}
+
+p {
+
+	line-height: 1.5;
+	text-align: justify;
+}
+
+h1, h2 {
+	color: var(--primary);
+}
+h3, h4, h5, h6 {
+	color: color-mix(in srgb, var(--text), var(--bg) 40%);
+	text-transform: uppercase;
+}
+
+h1 { font-size: 4rem; }
+h2 { font-size: 3rem; }
+h3 { font-size: 2rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
 
 body {
 	margin: 0 auto;
 	min-height: 100vh;
-	width: 640px;
-
-
+	width: 40em;
 }
 
 @media (prefers-color-scheme: light) {
