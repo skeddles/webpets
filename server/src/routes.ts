@@ -1,32 +1,53 @@
-import {promises as fsp} from 'fs';
+import { promises as fsp } from 'fs';
 import express from 'express';
-// import authenticate from './authenticate.js';
-import {dirname} from 'path';
-import {fileURLToPath} from 'url';
+import { dirname, join, relative } from 'path';
+import { fileURLToPath, pathToFileURL } from 'url';
 
 const router = express.Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+const routesDir = join(__dirname, 'routes'); 
 
-router.use('/status', (_req, res) => {
-	res.status(200).json({ message: 'Server is running' });
-});
+let routeTree = '';
+await loadRoutes();
 
-// await loadRoutes('auth');
-// router.use(authenticate);
-await loadRoutes('api');
+async function loadRoutes(dir = routesDir, basePath = '') {
+    const entries = await fsp.readdir(dir, { withFileTypes: true });
 
-async function loadRoutes(subFolder:string) {
-	const files = await fsp.readdir(`${__dirname}/${subFolder}`);
-	const jsFiles = files.filter((file) => file.endsWith('.js'));
+    for (const entry of entries) {
+        const fullPath = join(dir, entry.name);
+        const relativePath = join(basePath, entry.name);
 
-	for (const jsFile of jsFiles) {
-		const route = await import(`./${subFolder}/${jsFile}`);
-		const name = jsFile.replace('.js', '');
-		const path = `/${subFolder}/${name}`;
-		router.use(path, route.default);
-		console.log(' ➤ ', path);
-	}
+        if (entry.isDirectory()) 
+			return await loadRoutes(fullPath, relativePath);
+
+        if (entry.isFile() && (entry.name.endsWith('.js') || entry.name.endsWith('.ts'))) {
+
+			const fileSystemPath = pathToFileURL(fullPath).href;
+			const routePath = getRoutePath(fullPath, entry);
+			const route = await import(fileSystemPath);
+            router.use(routePath, route.default);
+
+            routeTree += `➤  ${routePath}\n`;
+        }
+    }
 }
+
+function getRoutePath (fullPath:string, entry) {
+
+	let routePath = '/' + relative(routesDir, fullPath);	// Get relative path from routesDir
+	routePath = routePath.replace(/\\/g, '/'); 				// Normalize Windows path slashes
+	routePath = routePath.replace(/\.(js|ts)$/, ''); 		// Remove file extension
+
+	const folderName = routePath.split('/').slice(-2, -1)[0];
+	const fileNameWithoutExt = entry.name.replace(/\.(js|ts)$/, '');
+
+	if (folderName === fileNameWithoutExt)
+		routePath = routePath.replace(new RegExp(`/${folderName}$`), '');
+
+	return routePath;
+}
+
+console.log('\nRoutes loaded:\n' + routeTree);
 
 export default router;
