@@ -1,0 +1,1 @@
+type IdOrString = ObjectId | string;
