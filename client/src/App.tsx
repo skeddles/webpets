@@ -12,6 +12,8 @@ import TestArticle from './pages/test-article';
 import SplashScreen from './components/SplashScreen';
 import Unauthenticated from './pages/Unauthenticated';
 import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
 	const { state: { user } } = useContext(AppStateContext);
@@ -37,7 +39,15 @@ function App() {
 
 	return (<Router>
 			{user == 'loading' && <SplashScreen />}
-			{user == 'unregistered' && <Unauthenticated />}
+			{user == 'unregistered' && <> 
+				<Routes>
+					<Route path="/" element={<Layout />}>
+						<Route index element={<Unauthenticated />} />
+						<Route path="/login" element={<Login />} />
+						<Route path="/register" element={<Register />} />
+					</Route>
+				</Routes>
+			</>}
 			{typeof user === 'object' && <>
 				<Routes>
 					<Route path="/" element={<Layout />}>
