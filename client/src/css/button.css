@@ -6,7 +6,7 @@ button {
 	font-weight: 600;
 	font-size: 1.25rem;
 	cursor: pointer;
-	transition: transform 100ms cubic-bezier(.47,3,.41,.8), background-color 100ms ease-in;
+	transition: transform 100ms cubic-bezier(.47,3,.41,.8), background-color 100ms ease-in, border-size 100ms ease-in;
 
 	margin: 1em 0;
 
@@ -17,11 +17,11 @@ button {
 
 	color: var(--primary-text);
 
-	border-bottom: 0.125em solid color-mix(in srgb, var(--primary), var(--primary-dark) 50%);
+	border-bottom: 0.25em solid color-mix(in srgb, var(--primary), var(--primary-dark) 50%);
 
 	box-shadow: 0 0.25em 0.5em color-mix(in srgb, var(--bg), black, 20%);
 
-	&:not(:disabled) {
+	&:not([aria-disabled="true"]) {
 		&:hover {
 			background-color: color-mix(in srgb, var(--primary), white 20%);
 			transform: scale(1.05);
@@ -32,9 +32,11 @@ button {
 		}
 	}
 
-	&:disabled {
-		background-color: #f6c43b;
-		opacity: 0.5;
+	&[aria-disabled="true"] {
+		background-color: color-mix(in srgb, var(--bg), black 50%);
+		color: var(--bg);
+		border-bottom: none;
+		border-top: 0.25em solid var(--bg);
 		cursor: not-allowed;
 	}
 }
