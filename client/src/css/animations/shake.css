@@ -1,0 +1,21 @@
+.shake {
+	animation: shake 800ms cubic-bezier(.36, .07, .19, .97) both;
+}
+
+@keyframes shake {
+    10%, 90% {
+        transform: translateX(-0.25em);
+    }
+    20%, 80% {
+        transform: translateX(0.25em);
+    }
+    30%, 50%, 70% {
+        transform: translateX(-0.5em);
+    }
+    40%, 60% {
+        transform: translateX(0.5em);
+    }
+    100% {
+      transform: translateX(0);
+    }
+}
