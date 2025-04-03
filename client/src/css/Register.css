@@ -1,0 +1,12 @@
+.Register {
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+
+	.validation {
+		font-style: italic;
+		color: color-mix(in srgb, var(--text), var(--bg) 20%);
+		font-size: 0.9em;
+		margin-top: 1em;
+	}
+}
