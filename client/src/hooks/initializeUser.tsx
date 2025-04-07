@@ -13,7 +13,7 @@ export function useInitializeUser () {
 		}
 
 		try {
-			const response = await fetch(import.meta.env.VITE_API_URL + '/api/profile', {
+			const response = await fetch(import.meta.env.VITE_API_URL + '/user/self', {
 				method: 'post',
 				headers: {'Authorization': `Bearer ${token}`}
 			});
