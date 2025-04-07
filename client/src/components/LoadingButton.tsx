@@ -31,6 +31,6 @@ export default function LoadingButton({text, loading, onClick, disabled, sparkle
 			className={classList}
 			ref={ref}
 		>
-		{text}
+		{text} {currentIcon}
 	</Button>);
 }
