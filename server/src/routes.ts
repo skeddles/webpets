@@ -1,4 +1,4 @@
-import { promises as fsp } from 'fs';
+import { Dirent, promises as fsp } from 'fs';
 import express from 'express';
 import { dirname, join, relative } from 'path';
 import { fileURLToPath, pathToFileURL } from 'url';
@@ -13,7 +13,7 @@ await loadRoutes();
 
 async function loadRoutes(dir = routesDir, basePath = '') {
     const entries = await fsp.readdir(dir, { withFileTypes: true });
-	
+
     for (const entry of entries) {
         const fullPath = join(dir, entry.name);
         const relativePath = join(basePath, entry.name);
@@ -33,7 +33,7 @@ async function loadRoutes(dir = routesDir, basePath = '') {
     }
 }
 
-function getRoutePath (fullPath:string, entry) {
+function getRoutePath (fullPath:string, entry: Dirent) {
 
 	let routePath = '/' + relative(routesDir, fullPath);	// Get relative path from routesDir
 	routePath = routePath.replace(/\\/g, '/'); 				// Normalize Windows path slashes
