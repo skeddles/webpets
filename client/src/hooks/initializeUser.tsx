@@ -22,10 +22,10 @@ export function useInitializeUser () {
 			const data = await response.json();
 			
 			dispatchState({type: 'SET_USER', user: {
-				_id: data._id, 
-				username: data.username, 
+				_id: data.user._id, 
+				username: data.user.username, 
 				token: token, 
-				admin: !!data.admin,
+				admin: !!data.user.admin,
 			}});
 
 			console.log('initialized user', data);

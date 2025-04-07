@@ -14,6 +14,7 @@ import Unauthenticated from './pages/Unauthenticated';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Admin from './pages/Admin';
 
 function App() {
 	const { state: { user } } = useContext(AppStateContext);
@@ -54,6 +55,7 @@ function App() {
 						<Route index element={<Home/>} />
 						<Route path="/test" element={<TestArticle />} />
 						<Route path="/test2" element={<Article />} />
+						<Route path="/admin" element={<Admin />} />
 					</Route>
 				</Routes>
 				<button onClick={toggleTheme}>
