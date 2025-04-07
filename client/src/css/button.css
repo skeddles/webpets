@@ -14,6 +14,7 @@
 		font-size: 1.25rem;
 		text-transform: uppercase;
 		color: var(--primary-text);
+		svg path {fill: var(--primary-text);}
 
 		/* box */
 		padding: 0.5em 1em;
@@ -70,6 +71,7 @@
 			cursor: not-allowed;
 			top: 0;
 			color: var(--bg);
+			svg path {fill: var(--bg);}
 			background-color: color-mix(in oklch, var(--bg), white 15%);
 		}
 	}

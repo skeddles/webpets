@@ -78,6 +78,13 @@ body {
 	width: 40em;
 }
 
+svg {
+	width: 1.2em;
+	height: 1.2em;
+	vertical-align: bottom;
+	display: inline-block;
+}
+
 @media (prefers-color-scheme: light) {
 	:root {
 		color: #213547;
