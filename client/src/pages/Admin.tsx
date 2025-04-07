@@ -1,6 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppState } from '../hooks/AppState';
 import { useNavigate } from "react-router-dom";
+
+import ErrorMessage from '../components/ErrorMessage';
+import RequestButton from '../components/RequestButton';
+
 // import '../styles/Admin.css';
 
 interface AdminProps {
@@ -10,6 +14,7 @@ interface AdminProps {
 export default function Admin({}: AdminProps) {
 	const { state: { user } } = useAppState();
 	const navigate = useNavigate();
+	const [rebuildError, setRebuildError] = useState('');
 
 	console.log('Admin', user);
 
@@ -21,6 +26,15 @@ export default function Admin({}: AdminProps) {
 
 	return (<div className="Admin">
 		<h1>Admin</h1>
+
+		<RequestButton 
+			text="Rebuild Lessons"
+			apiPath="admin/lessons/rebuild"
+			onSuccess={() => alert('Lessons rebuilt successfully')}
+			onError={(data) => console.error('Error rebuilding lessons:', data)}
+			setErrorMessage={setRebuildError}
+			/>
+		<ErrorMessage message={rebuildError} />
 
 	</div>);
 }

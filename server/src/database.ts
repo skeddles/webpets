@@ -25,6 +25,7 @@ export function id (id:IdOrString) {
 }
 
 export const Users = database.collection("users");
+export const Lessons = database.collection("lessons");
 
 await Users.createIndex({ "username": 1 },{ name:"username_lowercase_index", unique: true, collation: {locale: 'en',strength: 2}});
 
