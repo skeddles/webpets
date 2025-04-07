@@ -5,9 +5,13 @@ import authenticate from './auth/authenticate';
 
 const router = Router();
 
-router.use('/login', login);
-router.use('/register', register);
+const authRouter = Router();
+authRouter.use('/login', login);
+authRouter.use('/register', register);
+
+router.use('/auth', authRouter);
 router.use(authenticate);
+
 console.log('Authentication middleware loaded');
 
 export default router;

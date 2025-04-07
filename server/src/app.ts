@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 	next();
 });
 
-app.use('/auth', authentication);
+app.use(authentication);
 app.use(routes);
 
 app.use((_req, res) => {
