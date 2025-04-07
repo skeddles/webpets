@@ -6,8 +6,8 @@ const JWT_SECRET:string = process.env.JWT_SECRET || (() => { throw new Error("JW
 
 const router = Router();
 
-router.use('login', (await import('./auth/login')).default);
-router.use('register', (await import('./auth/register')).default);
+router.use('/login', (await import('./auth/login')).default);
+router.use('/register', (await import('./auth/register')).default);
 router.use(authenticate);
 console.log('Authentication middleware loaded');
 
