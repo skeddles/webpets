@@ -7,6 +7,7 @@ import './App.css'
 type Theme = 'light' | 'dark';
 
 import Layout from './Layout';
+import LayoutApp from './LayoutApp';
 import Article from './pages/article';
 import TestArticle from './pages/test-article';
 import SplashScreen from './components/SplashScreen';
@@ -51,7 +52,7 @@ function App() {
 			</>}
 			{typeof user === 'object' && <>
 				<Routes>
-					<Route path="/" element={<Layout />}>
+					<Route path="/" element={<LayoutApp />}>
 						<Route index element={<Home/>} />
 						<Route path="/test" element={<TestArticle />} />
 						<Route path="/test2" element={<Article />} />
