@@ -1,17 +1,10 @@
 import { createContext, useContext, useReducer, FC, ReactNode } from 'react';
 
-type User = {
-	_id: string;
-	username: string;
-	token: string;
-	admin: boolean;
-};
-
 type AppState = {
-	user: User | 'loading' | 'unregistered';
+	user: ClientUser | 'loading' | 'unregistered';
 };
 
-type SetUserAction = {type: 'SET_USER'; user: User};
+type SetUserAction = {type: 'SET_USER'; user: ClientUser};
 type SetUnauthenticatedAction = {type: 'SET_UNAUTHENTICATED'};
 type Action = SetUserAction | SetUnauthenticatedAction;
 
@@ -22,7 +15,7 @@ type StateContext = {
 };
 
 type UseStateReturnType = {
-	state: {user: User};
+	state: {user: ClientUser};
 	dispatchState: (action: Action) => void, 
 }
 
