@@ -1,9 +1,17 @@
 import jwt from 'jsonwebtoken';
-import {Request, Response, NextFunction} from 'express';
+import {Router, Request, Response, NextFunction} from 'express';
+// console.log('Environment Variables:', process.env);
 
 const JWT_SECRET:string = process.env.JWT_SECRET || (() => { throw new Error("JWT_SECRET is not defined in environment variables"); })();
 
-export default async function authenticate(req:Request, res:Response, next:NextFunction) {
+const router = Router();
+
+router.use('login', (await import('./auth/login')).default);
+router.use('register', (await import('./auth/register')).default);
+router.use(authenticate);
+console.log('Authentication middleware loaded');
+
+async function authenticate(req:Request, res:Response, next:NextFunction) {
     try {
         const authHeader = req.headers.authorization;
         if (!authHeader || !authHeader.startsWith('Bearer ')) throw new Error("Authorization header not found or invalid");
@@ -24,3 +32,5 @@ export default async function authenticate(req:Request, res:Response, next:NextF
         return;
     }
 }
+
+export default router;

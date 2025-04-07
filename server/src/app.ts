@@ -1,17 +1,16 @@
-import dotenv from 'dotenv';
+import './setup';
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import routes from './routes';
+import authentication from './authentication';
 
 
-dotenv.config();
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
 app.use((req, res, next) => {
-	//add a timestamp to the request
 	req.timestamp = Date.now();
 	res.on('finish', () => {
 		const elapsed = Date.now() - req.timestamp;
@@ -20,6 +19,7 @@ app.use((req, res, next) => {
 	next();
 });
 
+app.use(authentication);
 app.use(routes);
 
 app.use((_req, res) => {
