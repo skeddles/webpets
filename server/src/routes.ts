@@ -13,13 +13,13 @@ await loadRoutes();
 
 async function loadRoutes(dir = routesDir, basePath = '') {
     const entries = await fsp.readdir(dir, { withFileTypes: true });
-
+	
     for (const entry of entries) {
         const fullPath = join(dir, entry.name);
         const relativePath = join(basePath, entry.name);
 
         if (entry.isDirectory()) 
-			return await loadRoutes(fullPath, relativePath);
+			await loadRoutes(fullPath, relativePath);
 
         if (entry.isFile() && (entry.name.endsWith('.js') || entry.name.endsWith('.ts'))) {
 
