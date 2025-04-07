@@ -12,3 +12,6 @@
 
 - `VITE_API_URL`: the servers url (eg `http://localhost:3064`)
 
+### Server
+
+- `JWT_SECRET`: the JWT secret used to sign the tokens (a long random string)

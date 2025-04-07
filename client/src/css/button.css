@@ -1,4 +1,83 @@
-button {
+.Button {
+	button {
+		/*variables*/
+		--button-side: color-mix(in oklch, var(--primary), var(--primary-dark) 50%);
+		--bg-shadow: color-mix(in oklch, var(--bg), black 25%);
+		--button-pressed: color-mix(in oklch, var(--primary), var(--primary-dark) 10%);
+		--button-hovered: color-mix(in oklch, var(--primary), white 10%);
+
+		/*text*/
+		font-family: "Dosis", sans-serif;
+		font-optical-sizing: auto;
+		font-weight: 800;
+		font-style: normal;
+		font-size: 1.25rem;
+		text-transform: uppercase;
+		color: var(--primary-text);
+
+		/* box */
+		padding: 0.5em 1em;
+		border-radius: 0.5em;
+		border: none;
+		background: var(--primary);
+		position: relative;
+
+		
+		
+
+
+
+		&:not([aria-disabled="true"]) {		
+			cursor: pointer;
+			top: -0.25em;
+			box-shadow: 
+				0 0.25em 0 var(--button-side), /* 3d bottom edge */ 
+				0.25em 0.25em 0 var(--bg-shadow); /* cast shadow */ 
+			transition: 
+				top 100ms cubic-bezier(.47,4,.41,.8),
+				box-shadow 100ms cubic-bezier(.47,4,.41,.8);
+
+			&:hover {
+				background: var(--button-hovered);
+				top: -0.375em;
+				box-shadow: 
+					0 0.375em 0 var(--button-side), /* 3d bottom edge */ 
+					0.375em 0.375em 0 var(--bg-shadow); /* cast shadow */ 
+				transition: 
+					top 100ms cubic-bezier(.47,4,.41,.8),
+					box-shadow 100ms cubic-bezier(.47,4,.41,.8);
+			}
+			&:active {
+				background: var(--button-pressed);
+				top: 0.25em;
+				box-shadow: 
+					0 -0.375em 0 var(--bg-shadow), /* 3d inset bg wall */ 
+					0 0 0 transparent, /* remove cast shadow */ 
+					0 -0.25em 0 inset var(--bg), /* mask 3d bottom edge */ 
+					0 -0.25em 0 inset var(--bg), /* mask 3d bottom edge */ 
+					0 -0.25em 0 inset var(--bg), /* mask 3d bottom edge */ 
+					0 -0.25em 0 inset var(--bg), /* mask 3d bottom edge */ 
+ 
+					1em -0.125em 0 -0.75em inset var(--button-side); /* inner cast shadow */ 
+				transition: 
+					top 10ms cubic-bezier(.47,1,.41,.8),
+					box-shadow 10ms cubic-bezier(.47,1,.41,.8);
+
+			}
+		}
+
+		&[aria-disabled="true"] {
+			cursor: not-allowed;
+			top: 0;
+			color: var(--bg);
+			background-color: color-mix(in oklch, var(--bg), white 15%);
+		}
+	}
+}
+
+
+
+/* button {
 	background-color: var(--primary);
 	border: none;
 	border-radius: 0.4em;
@@ -19,15 +98,17 @@ button {
 
 	border-bottom: 0.25em solid color-mix(in srgb, var(--primary), var(--primary-dark) 50%);
 
-	box-shadow: 0 0.25em 0.5em color-mix(in srgb, var(--bg), black, 20%);
+	box-shadow: color-mix(in srgb, var(--bg), var(--bg-shadow) 50%) 0.2em 0.2em 0;
 
-	&:not([aria-disabled="true"]) {
+	&:not([aria-disabled="true"]) {		
 		&:hover {
 			background-color: color-mix(in srgb, var(--primary), white 20%);
 			transform: scale(1.05);
+			box-shadow: color-mix(in srgb, var(--bg), var(--bg-shadow) 50%) 0.2em 0.3em 0;
 		}
 		&:active {
 			background-color: color-mix(in srgb, var(--primary), black 20%);
+			box-shadow: none;
 			transform: scale(0.95);
 		}
 	}
@@ -38,5 +119,6 @@ button {
 		border-bottom: none;
 		border-top: 0.25em solid var(--bg);
 		cursor: not-allowed;
+		box-shadow: none;
 	}
-}
+} */
