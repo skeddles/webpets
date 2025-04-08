@@ -33,6 +33,7 @@ export async function getLessonHtml(pageId:string) {
 	
 	let html = '';
 	const files = [] as BlockFileData[];
+	let currentGroup = null as string | null;
 
 	for (const block of pageBlocks) {
 		if (!('type' in block)) 
@@ -41,20 +42,104 @@ export async function getLessonHtml(pageId:string) {
 			console.warn('No converter for block type "'+ block.type +'"');
 		else {
 			const convertedPageData = await converter[block.type](block,pageId);
+
+			const inAGroup = currentGroup !== null;
+			const groupWasSpecified = convertedPageData.group !== undefined;
+			const groupIsDifferent = currentGroup !== convertedPageData.group;
+
+			//if you're in a group, and a group was specified, and the group is different from the current group, close the group
+			//if you're in a group, and a group was specified, and the group is the same as the current group, do nothing
+			//if you're in a group, and no group was specified, close the group
+			//if you're not in a group, and a group was specified, open the group
+			//if you're not in a group, and no group was specified, do nothing
+
+
+			if (currentGroup && convertedPageData.group && convertedPageData.group != currentGroup) 
+				html += `</${currentGroup}><${convertedPageData.group}>`;
+			else if (currentGroup && !convertedPageData.group)
+				html += `</${currentGroup}>`;
+			else if (!currentGroup && convertedPageData.group) 
+				html += `<${convertedPageData.group}>`;
+
+			currentGroup = convertedPageData.group || null;
+			
 			html += convertedPageData.html;
+
 			if (convertedPageData.files) files.push(...convertedPageData.files);
 		}
 	}
+
+	if (currentGroup) html += `</${currentGroup}>`;
 
 	return { html, files };
 }
 
 
-const converter: Record<string, (block: any,pageId:string) => Promise<{ files: BlockFileData[]; html: string; }>> = {
+const converter: Record<string, (block: any,pageId:string) => Promise<{ html: string; files?: BlockFileData[]; group?: string }>> = {
+	'paragraph': async (block:any) => {
+		return {
+			html: `<p>${richTextToHtml(block.paragraph.rich_text)}</p>`
+		}
+	},
+	'heading_1': async (block:any) => {
+		return {
+			html: `<h1>${richTextToHtml(block.heading_1.rich_text)}</h1>`
+		}
+	},
+	'heading_2': async (block:any) => {
+		return {
+			html: `<h2>${richTextToHtml(block.heading_2.rich_text)}</h2>`
+		}
+	},
+	'heading_3': async (block:any) => {
+		return {
+			html: `<h3>${richTextToHtml(block.heading_3.rich_text)}</h3>`
+		}
+	},
 	'image': async (block:any,pageId:string) => {
 		return {
 			files: [{id: block.id, url: block.image.file.url}],
-			html: `<img src="${CDN_PATH+'lessons/'+pageId+'/'+block.id}" alt="${block.image.caption}" />`
+			html: `<figure class="image"><img src="${CDN_PATH+'lessons/'+pageId+'/'+block.id}" alt="${block.image.caption}" /></figure>`
+		}
+	},
+	'callout': async (block:any) => {
+		const icon = block.callout.icon?.emoji ? block.callout.icon?.emoji + ' ' : '';
+		return {
+			html: `<figure>${icon + richTextToHtml(block.callout.rich_text)}</figure>`
+		}
+	},
+	'quote': async (block:any) => {
+		return {
+			html: `<blockquote>${richTextToHtml(block.quote.rich_text)}</blockquote>`
+		}
+	},
+	'numbered_list_item': async (block:any) => {
+		return {
+			group: 'ol',
+			html: `<li>${richTextToHtml(block.numbered_list_item.rich_text)}</li>`
 		}
 	}
+}
+
+interface RichText {
+	plain_text: string;
+	href?: string;
+	annotations: {
+		bold?: boolean;
+		italic?: boolean;
+		strikethrough?: boolean;
+		code?: boolean;
+	};
+}
+
+function richTextToHtml(richTextArray: RichText[]): string {
+	return richTextArray.map((rt: RichText) => {
+		let text = rt.plain_text;
+		if (rt.href) text = '<' + text + '>';
+		if (rt.annotations.bold) text = '<b>' + text + '</b>';
+		if (rt.annotations.italic) text = '<i>' + text + '</i>';
+		if (rt.annotations.strikethrough) text = '<s>' + text + '</s>';
+		if (rt.annotations.code) text = '<code>' + text + '</code>';
+		return text;
+	}).join('');
 }

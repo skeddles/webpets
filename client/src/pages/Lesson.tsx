@@ -5,7 +5,8 @@ import { useAppState } from '../hooks/AppState';
 
 import RequestButton from '../components/RequestButton';
 import ErrorMessage from '../components/ErrorMessage';
-import '../css/Article.css';
+
+import '../css/Lesson.css';
 
 interface LessonProps {
 
@@ -46,7 +47,7 @@ export default function Lesson({}: LessonProps) {
 		getLessonHtml();
 	}
 
-	return (<div className="Article">
+	return (<div className="Lesson">
 		
 		{user.admin && <div className="admin-controls">
 			<RequestButton 
@@ -62,19 +63,21 @@ export default function Lesson({}: LessonProps) {
 
 		{!lesson && <div className="loading">Loading...</div>}
 
-		{lesson && <>
-			<h1>{lesson.title}</h1>
-			<p>{lesson.description}</p>
+		{lesson && <article>
+			<header>
+				<h1>{lesson.title}</h1>
+				<p>{lesson.description}</p>
 
-			<p>Level: {lesson.level}</p>
-			<p>Number: {lesson.number}</p>
-			<p>Slug: {lesson.slug}</p>
-			<p>Page ID: {lesson.pageId}</p>
+				<p>Level: {lesson.level}</p>
+				<p>Number: {lesson.number}</p>
+				<p>Slug: {lesson.slug}</p>
+				<p>Page ID: {lesson.pageId}</p>
+			</header>
 
-			{lessonHtml && <div className="lesson-html" dangerouslySetInnerHTML={{ __html: lessonHtml }} />}
 			{!lessonHtml && <div className="loading">Loading lesson HTML...</div>}
-
-		</>}
+			{lessonHtml && <div className="lesson-html" dangerouslySetInnerHTML={{ __html: lessonHtml }} />}
+			
+		</article>}
 	</div>);
 }
 

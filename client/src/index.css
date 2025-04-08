@@ -57,20 +57,20 @@ p {
 	text-align: justify;
 }
 
-h1, h2 {
+h1 {
 	color: var(--primary);
 }
-h3, h4, h5, h6 {
+h2, h3, h4, h5, h6 {
 	color: color-mix(in srgb, var(--text), var(--bg) 40%);
 	text-transform: uppercase;
 }
 
-h1 { font-size: 4rem; }
-h2 { font-size: 3rem; }
-h3 { font-size: 2rem; }
-h4 { font-size: 1.5rem; }
-h5 { font-size: 1.25rem; }
-h6 { font-size: 1rem; }
+h1 { font-size: 3rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.8rem; }
 
 body {
 	margin: 0 auto;

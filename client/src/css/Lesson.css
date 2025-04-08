@@ -1,0 +1,67 @@
+.Lesson {
+
+	article {
+		header {
+			h1 {
+				font-size: 4em;
+				margin: 0.5em 0 0.5em;
+			}
+		}
+
+		figure {
+			display: flex;
+			background: color-mix(in srgb, var(--bg), var(--bg-shadow) 50%);
+			padding: 1em;
+			border-radius: 0.5em;
+
+			&.image {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				a {
+					max-width: 100%;
+				}
+
+				img {
+					max-width: 100%;
+					max-height: 90vh;
+					border-radius: 0.5em;
+				}
+			}
+		}
+
+		blockquote {
+			background: color-mix(in srgb, var(--bg), var(--bg-shadow) 50%);
+			padding: 1.5em 1em;
+			border-radius: 0.5em;
+			margin: 1.5em 1em;
+			position: relative;
+
+			&:before, &:after {
+				position: absolute;
+				display: block;
+				line-height: 1;
+				width: 0;
+				height: 0;
+				font-size: 10em;
+				color: color-mix(in srgb, var(--text), var(--bg) 80%);
+				text-shadow: color-mix(in srgb, var(--bg), var(--bg-shadow) 50%) 0.02em 0.02em 0;
+			}
+
+			&:before {
+				content: '“';
+				left: -0.125em;
+				top: -0.25em;
+			}
+
+			&:after {
+				content: '”';
+				right: 0.2em;
+				top: -0.25em;
+			}
+
+
+		}
+	}
+}
