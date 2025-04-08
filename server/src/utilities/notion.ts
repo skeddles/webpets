@@ -2,6 +2,9 @@ import { Client } from '@notionhq/client';
 
 const API_KEY = process.env.NOTION_API_KEY || (() => { throw new Error("NOTION_API_KEY is not defined in environment variables"); })();
 const DATABASE_ID = process.env.NOTION_ARTICLES_DATABASE_ID || (() => { throw new Error("NOTION_ARTICLES_DATABASE_ID is not defined in environment variables"); })();
+const DO_SPACES_CDN_URL = process.env.DO_SPACES_CDN_URL || (() => { throw new Error("DO_SPACES_CDN_URL is not defined in environment variables"); })();
+const DO_SPACES_SUBDIRECTORY = process.env.DO_SPACES_SUBDIRECTORY || (() => { throw new Error("DO_SPACES_SUBDIRECTORY is not defined in environment variables"); })();
+const CDN_PATH = DO_SPACES_CDN_URL + DO_SPACES_SUBDIRECTORY + '/';
 
 
 const notion = new Client({auth: API_KEY});
@@ -37,7 +40,7 @@ export async function getLessonHtml(pageId:string) {
 		else if (!converter[block.type]) 
 			console.warn('No converter for block type "'+ block.type +'"');
 		else {
-			const convertedPageData = await converter[block.type](block);
+			const convertedPageData = await converter[block.type](block,pageId);
 			html += convertedPageData.html;
 			if (convertedPageData.files) files.push(...convertedPageData.files);
 		}
@@ -47,11 +50,11 @@ export async function getLessonHtml(pageId:string) {
 }
 
 
-const converter: Record<string, (block: any) => Promise<{ files: BlockFileData[]; html: string; }>> = {
-	'image': async (block:any) => {
+const converter: Record<string, (block: any,pageId:string) => Promise<{ files: BlockFileData[]; html: string; }>> = {
+	'image': async (block:any,pageId:string) => {
 		return {
 			files: [{id: block.id, url: block.image.file.url}],
-			html: `<img src="${block.id}" alt="${block.image.caption}" />`
+			html: `<img src="${CDN_PATH+'lessons/'+pageId+'/'+block.id}" alt="${block.image.caption}" />`
 		}
 	}
 }
