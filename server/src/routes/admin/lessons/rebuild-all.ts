@@ -2,13 +2,12 @@ import { createRouter } from '../../../utilities/create-router.js';
 import { getAllLessons } from '../../../queries/lesson/get-all.js';
 import * as notion from '../../../utilities/notion.js';
 import * as storage from '../../../utilities/storage.js';
+import downloadAllFiles from '../../../utilities/download-all-files.js';
 
-export default createRouter({}, async (req, res) => {
+export default createRouter({}, async (_req, res) => {
 
 	const lessons = await getAllLessons();
-
 	const lessonPages = await notion.getLessonList();
-
 	const lessonsThatNeedRebuild = findOutdatedLessons(lessons, lessonPages);
 
 	console.log('lessons:', {
@@ -27,11 +26,11 @@ export default createRouter({}, async (req, res) => {
 });
 
 
-function findOutdatedLessons(lessons:Lesson[], lessonPages) {
+function findOutdatedLessons(lessons:Lesson[], lessonPages:any) {
 	const lessonsThatNeedRebuild = [];
 
 	for (const lesson of lessons) {
-		const lessonPage = lessonPages.find((lessonPage) => lessonPage.id === lesson.pageId);
+		const lessonPage = lessonPages.find((lessonPage:any) => lessonPage.id === lesson.pageId);
 		if (lessonPage)
 			lessonsThatNeedRebuild.push(lesson);
 		else
@@ -39,20 +38,4 @@ function findOutdatedLessons(lessons:Lesson[], lessonPages) {
 	}
 
 	return lessonsThatNeedRebuild;
-}
-
-
-async function downloadAllFiles(folderPath:string, files:BlockFileData[]) {
-	for (const file of files) {
-		try {
-			//download the files data from the url
-			const response = await fetch(file.url);
-			if (!response.ok) throw new Error('Failed to download file: ' + response.statusText);
-			const fileData = Buffer.from(await response.arrayBuffer());
-			await storage.uploadFile(`lessons/${folderPath}/${file.id}`, fileData, true);
-			console.log('File downloaded and uploaded:', file.id);
-		} catch (error) {
-			console.error('Error downloading file:', error);
-		}
-	}
 }
