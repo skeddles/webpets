@@ -1,7 +1,9 @@
 .LoadingSpinner {
+	--spinner-color: #fff;
+
 	width: 1em;
 	height: 1em;
-	border: 3px solid #FFF;
+	border: 6px solid var(--spinner-color);
 	border-bottom-color: transparent;
 	border-radius: 50%;
 	display: inline-block;
