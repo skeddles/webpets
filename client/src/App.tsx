@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, useRef } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router';
 import { AppStateContext } from './hooks/AppState';
 import { useInitializeUser } from './hooks/initializeUser';
 import './App.css'
@@ -9,6 +9,7 @@ type Theme = 'light' | 'dark';
 import Layout from './Layout';
 import LayoutApp from './LayoutApp';
 import Article from './pages/article';
+import Lesson from './pages/Lesson';
 import TestArticle from './pages/test-article';
 import SplashScreen from './components/SplashScreen';
 import Unauthenticated from './pages/Unauthenticated';
@@ -56,6 +57,7 @@ function App() {
 						<Route index element={<Home/>} />
 						<Route path="/test" element={<TestArticle />} />
 						<Route path="/test2" element={<Article />} />
+						<Route path="/lesson/:slug" element={<Lesson />} />
 						<Route path="/admin" element={<Admin />} />
 					</Route>
 				</Routes>
