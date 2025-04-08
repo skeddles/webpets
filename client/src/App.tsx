@@ -48,6 +48,7 @@ function App() {
 						<Route index element={<Unauthenticated />} />
 						<Route path="/login" element={<Login />} />
 						<Route path="/register" element={<Register />} />
+						<Route path="*" element={<Unauthenticated />} />
 					</Route>
 				</Routes>
 			</>}
@@ -59,6 +60,7 @@ function App() {
 						<Route path="/test2" element={<Article />} />
 						<Route path="/lesson/:slug" element={<Lesson />} />
 						<Route path="/admin" element={<Admin />} />
+						<Route path="*" element={<Home />} />
 					</Route>
 				</Routes>
 				<button onClick={toggleTheme}>

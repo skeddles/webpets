@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import ErrorMessage from '../components/ErrorMessage';
 import AuthButton from '../components/AuthButton';

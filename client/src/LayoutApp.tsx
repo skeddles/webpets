@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 import { useAppState } from './hooks/AppState';
 
 const Layout = () => {
@@ -8,9 +8,13 @@ const Layout = () => {
 		<div className="Background"></div>
 
 		Logged in as {user.username} <br />
+		{user.admin && <span className="admin">Admin</span>}
+
+		<a href="/article/test-article">Test Article</a> <br />
+		<a href="/admin">admin</a> <br />
+
 
 		<div className="tab">
-
 			<Outlet />
 		</div>
 	</>);

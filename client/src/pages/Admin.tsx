@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAppState } from '../hooks/AppState';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 import ErrorMessage from '../components/ErrorMessage';
 import RequestButton from '../components/RequestButton';
