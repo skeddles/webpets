@@ -43,17 +43,6 @@ export async function getLessonHtml(pageId:string) {
 		else {
 			const convertedPageData = await converter[block.type](block,pageId);
 
-			const inAGroup = currentGroup !== null;
-			const groupWasSpecified = convertedPageData.group !== undefined;
-			const groupIsDifferent = currentGroup !== convertedPageData.group;
-
-			//if you're in a group, and a group was specified, and the group is different from the current group, close the group
-			//if you're in a group, and a group was specified, and the group is the same as the current group, do nothing
-			//if you're in a group, and no group was specified, close the group
-			//if you're not in a group, and a group was specified, open the group
-			//if you're not in a group, and no group was specified, do nothing
-
-
 			if (currentGroup && convertedPageData.group && convertedPageData.group != currentGroup) 
 				html += `</${currentGroup}><${convertedPageData.group}>`;
 			else if (currentGroup && !convertedPageData.group)
