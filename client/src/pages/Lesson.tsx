@@ -65,14 +65,15 @@ export default function Lesson({}: LessonProps) {
 
 		{lesson && <article>
 			<header>
-				<h1>{lesson.title}</h1>
+				<h1>{lesson.title} <span>{lesson.number}</span></h1>
+				<div className="sub-header">
+					{lesson.level} level
+					{lesson.course}
+				</div>
 				<p>{lesson.description}</p>
-
-				<p>Level: {lesson.level}</p>
-				<p>Number: {lesson.number}</p>
-				<p>Slug: {lesson.slug}</p>
-				<p>Page ID: {lesson.pageId}</p>
 			</header>
+
+			<hr />
 
 			{!lessonHtml && <div className="loading">Loading lesson HTML...</div>}
 			{lessonHtml && <div className="lesson-html" dangerouslySetInnerHTML={{ __html: lessonHtml }} />}

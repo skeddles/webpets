@@ -17,6 +17,7 @@ export default createRouter(schema, async (req, res) => {
 		level: lessonData.level,
 		slug: lessonData.slug,
 		pageId: lessonData.pageId,
+		course: 'Beginner Pixel Art',
 		url: url + '&t=' + Date.now(),
 	};
 	res.status(200).json({ lesson: lesson as LessonClient });
