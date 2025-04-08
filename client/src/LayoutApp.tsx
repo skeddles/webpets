@@ -10,7 +10,7 @@ const Layout = () => {
 		Logged in as {user.username} <br />
 		{user.admin && <span className="admin">Admin</span>}
 
-		<a href="/article/test-article">Test Article</a> <br />
+		<a href="/lesson/test-lesson">Test Lesson</a> <br />
 		<a href="/admin">admin</a> <br />
 
 
