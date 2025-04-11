@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router';
+import { Outlet, Link } from 'react-router';
 import { useAppState } from './hooks/AppState';
 
 const Layout = () => {
@@ -10,8 +10,11 @@ const Layout = () => {
 		Logged in as {user.username} <br />
 		{user.admin && <span className="admin">Admin</span>}
 
-		<a href="/lesson/test-lesson">Test Lesson</a> <br />
-		<a href="/admin">admin</a> <br />
+
+		<Link to="/">home</Link> <br />
+		<Link to="/lesson/test-lesson">test Lessons</Link> <br />
+		<Link to="/admin">Admin</Link> <br />
+
 
 
 		<div className="tab">
