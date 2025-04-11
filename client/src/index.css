@@ -76,6 +76,7 @@ body {
 	margin: 0 auto;
 	min-height: 100vh;
 	width: 40em;
+	overflow-x: hidden;
 }
 
 svg {
