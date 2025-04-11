@@ -29,6 +29,7 @@
 			box-shadow: 0 0.25em 0 color-mix(in oklch, var(--bg), var(--bg-shadow) 20%);
 			cursor: pointer;
 			outline: solid 0 var(--primary);
+			text-decoration: none;
 
 			transition: 
 				transform 200ms cubic-bezier(.47,3,.41,.8),
