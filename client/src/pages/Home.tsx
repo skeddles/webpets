@@ -1,16 +1,29 @@
+import { useState, useEffect } from 'react';
 import { Link } from "react-router";
+import useApiRequest from '../hooks/ApiRequest';
 
 import './Home.css';
 
-interface HomeProps {
+export default function Home() {
+	const apiRequest = useApiRequest();
+	const [lessons, setLessons] = useState<LessonClient[]>([]);
 
-}
+	useEffect(() => {
+		if (!lessons) return;
+		loadLessons();
+	}, []);
 
-export default function Home({}: HomeProps) {
+	async function loadLessons() {
+		try {
+			const result = await apiRequest('lesson/get-all', {});
+			if (!result) throw new Error('failed to fetch lessons');
 
-	const lessonList:LessonClient[] = [
-		{ title: 'Depiction', slug: 'test-lesson', number: 101, description: 'hi', pageId: 'd4a3e186-7814-466c-9e66-284160d6a273', level: 'beginner', course: 'test' },
-	];
+			setLessons(result.lessons);
+			console.log('lessons', result.lessons);
+		} catch (error) {
+			console.error('Error fetching lessons:', error);
+		}
+	}
 
 	return (<div className="Home">
 		<h1>Home</h1>
@@ -18,7 +31,7 @@ export default function Home({}: HomeProps) {
 
 		<h2>Your Lessons</h2>
 		<div className="lesson-list">
-			{lessonList.map((lesson) => (
+			{lessons.map((lesson) => (
 				<Link 
 					className="lesson" 
 					to={'/lesson/'+lesson.slug} 
