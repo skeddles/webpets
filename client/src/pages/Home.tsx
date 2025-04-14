@@ -8,14 +8,8 @@ interface HomeProps {
 
 export default function Home({}: HomeProps) {
 
-	const lessonList = [
-		{ title: 'Lesson 1', slug: 'test-lesson' },
-		{ title: 'Lesson 2', slug: 'lesson-2' },
-		{ title: 'Lesson 3', slug: 'lesson-3' },
-		{ title: 'Lesson 3', slug: 'lesson-3' },
-		{ title: 'Lesson 3', slug: 'lesson-3' },
-		{ title: 'Lesson 3', slug: 'lesson-3' },
-		{ title: 'Lesson 3', slug: 'lesson-3' },
+	const lessonList:LessonClient[] = [
+		{ title: 'Depiction', slug: 'test-lesson', number: 101, description: 'hi', pageId: 'd4a3e186-7814-466c-9e66-284160d6a273', level: 'beginner', course: 'test' },
 	];
 
 	return (<div className="Home">
@@ -25,8 +19,13 @@ export default function Home({}: HomeProps) {
 		<h2>Your Lessons</h2>
 		<div className="lesson-list">
 			{lessonList.map((lesson) => (
-				<Link to={'/lesson/'+lesson.slug} key={lesson.slug} className="lesson" >
-					<div>{lesson.title}</div>
+				<Link 
+					className="lesson" 
+					to={'/lesson/'+lesson.slug} 
+					key={lesson.slug} 
+					state={{ lesson }}
+					>
+						<div>{lesson.title}</div>
 
 				</Link>
 			))}

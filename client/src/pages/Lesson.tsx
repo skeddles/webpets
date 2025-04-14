@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router';
+import { useParams, useLocation } from 'react-router';
 import useApiRequest from '../hooks/ApiRequest';
 import { useAppState } from '../hooks/AppState';
 
@@ -16,23 +16,34 @@ export default function Lesson({}: LessonProps) {
 	const { state: { user } } = useAppState();
 	const { slug } = useParams();
 	const apiRequest = useApiRequest();
+	const location = useLocation();;
 
-	const [lesson, setLesson] = useState<LessonClient | null>(null);
+	const [lesson, setLesson] = useState<LessonClient | null>(location.state?.lesson || null);
 	const [lessonHtml, setLessonHtml] = useState<string | null>(null);
 	const [adminError, setRebuildError] = useState('');
 
 	useEffect(() => {
 		if (!slug) return;
-		getLessonHtml();
+		loadLesson();
 	}, []);
 
-	async function getLessonHtml () {
+	async function loadLesson() {
 		try {
-			const {lesson}:{lesson:LessonClient} = await apiRequest('lesson/get', { slug });
-			setLesson(lesson);
-			console.log('lessonData', lesson);
-
-			const lessonHtmlText = await fetchLessonHtml(lesson.url);
+			let lessonData = lesson;
+			if (lessonData === null) {
+				lessonData = await apiRequest('lesson/get', { slug });
+				if (!lessonData) throw new Error('Lesson data is null');
+				setLesson(lessonData);
+				console.log('lessonData', lessonData);
+			}
+			else if (lessonData.url === undefined) {
+				console.log('already have lessonData, fetching url');
+				lessonData.url = (await apiRequest('lesson/get-url', { pageId: lessonData.pageId })).url;
+				setLesson(lessonData);
+			}
+			if (!lessonData.url) throw new Error('Lesson URL is null');
+			
+			const lessonHtmlText = await fetchLessonHtml(lessonData.url);
 			setLessonHtml(lessonHtmlText);
 			console.log('lessonHtmlText', lessonHtmlText);
 
@@ -41,10 +52,13 @@ export default function Lesson({}: LessonProps) {
 		}
 	}
 
-	function handleLessonRebuiltSuccess() {
+
+	async function handleLessonRebuiltSuccess() {
+		if (!lesson || !lesson.url) throw new Error('Lesson is null');
 		console.log('Lesson rebuilt successfully');
 		setLessonHtml(null);
-		getLessonHtml();
+		const lessonHtmlText = await fetchLessonHtml(lesson.url);
+		setLessonHtml(lessonHtmlText);
 	}
 
 	return (<div className="Lesson">

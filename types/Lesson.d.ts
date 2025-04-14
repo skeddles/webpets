@@ -9,6 +9,6 @@ type Lesson = {
 }
 
 type LessonClient = Omit<Lesson, '_id'> & {
-	url: string;
+	url?: string;
 	course: string;
 }
