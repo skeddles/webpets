@@ -2,7 +2,6 @@ import { useState, useEffect, useContext, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router';
 import { AppStateContext } from './hooks/AppState';
 import { useInitializeUser } from './hooks/initializeUser';
-import './App.css'
 
 type Theme = 'light' | 'dark';
 
