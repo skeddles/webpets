@@ -7,7 +7,6 @@ import '../css/Account.css';
 
 export default function Account() {
 	const { state: { user } } = useAppState();
-
 	const [open, setOpen] = useState(false);
 
 	return (<div className={"Account" + (open ? " open" : "")}>

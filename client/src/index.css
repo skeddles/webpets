@@ -13,6 +13,7 @@
 	&[data-theme='dark'] {
 		--bg: #171730;
 		--text: #bccdfc;
+		--text-weak: color-mix(in oklch, var(--text), var(--bg) 50%);
 		--bg-shadow: #000000;
 
 		--primary: #f6c43b;
@@ -25,6 +26,7 @@
 	&[data-theme='light'] {
 		--bg: #ffffff;
 		--text: #2d2d30;
+		--text-weak: color-mix(in oklch, var(--text), var(--bg) 50%);
 		--bg-shadow: #ffffff;
 
 		--primary: #2e2e7a;
