@@ -7,6 +7,8 @@ export async function insertUser(username:string, password:string) {
 		username,
 		password,
 		admin: false,
+		purchasedLessons: [],
+		purchasedCourses: []
 	};
 	const insertResult = await Users.insertOne(userInsert);
 	if (!insertResult.acknowledged) throw new Error("Insert Failed");
