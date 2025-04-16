@@ -2,10 +2,10 @@ import {Assignments} from '../../database.js';
 
 type AssignmentInsert = Omit<Assignment, '_id' | 'notionId'>;
 
-export async function upsertAssignment(notionId:string, lesson:string, name:string, number:number, optional:boolean, repeatable:boolean) {
+export async function upsertAssignment(notionId:string, lessonSlug:string, name:string, number:number, optional:boolean, repeatable:boolean) {
 	const assignmentInsert:AssignmentInsert = {
 		name,
-		lesson,
+		lessonSlug,
 		number,
 		optional,
 		repeatable,

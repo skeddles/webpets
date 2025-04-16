@@ -10,7 +10,7 @@ type NotionAssignmentsDatabaseObject = PartialDatabaseObjectResponse & {
 		Number: { number: number };
 		Optional: { checkbox: boolean };
 		Repeatable: { checkbox: boolean };
-		Lesson: { select: { name: string } | null };
+		LessonSlug: { select: { name: string }};
 		Worksheet: { files: { file: { url: string }, name: string }[] };
 	};
 }
@@ -22,7 +22,7 @@ export default async function updateAssignments(lessonName:string|null = null) {
 
 
 	for (const assignment of assignments as NotionAssignmentsDatabaseObject[]) {
-		if (lessonName && assignment.properties.Lesson.select?.name !== lessonName) continue;
+		if (lessonName && assignment.properties.LessonSlug.select?.name !== lessonName) continue;
 
 		try {
 			const notionId = assignment.id;
@@ -30,11 +30,11 @@ export default async function updateAssignments(lessonName:string|null = null) {
 			const number = assignment.properties.Number.number;
 			const optional = assignment.properties.Optional.checkbox || false;
 			const repeatable = assignment.properties.Repeatable.checkbox || false;
-			const lesson = assignment.properties.Lesson.select?.name || 'No Lesson';
+			const lessonSlug = assignment.properties.LessonSlug.select?.name;
 			const worksheet = assignment.properties.Worksheet.files[0]?.file.url;
 			const worksheetExtension = getFileExtension(assignment.properties.Worksheet.files[0]?.name);
 
-			await upsertAssignment(notionId, lesson, name, number, optional, repeatable);
+			await upsertAssignment(notionId, lessonSlug, name, number, optional, repeatable);
 			await downloadAllFiles(`assignments`, [{url:worksheet, id:`${notionId}.${worksheetExtension}`}]);
 			console.log('assignment upserted:', assignment.id);
 		} catch (error) {
