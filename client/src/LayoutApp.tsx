@@ -1,10 +1,10 @@
 import { Outlet, Link } from 'react-router';
-import { useAppState } from './hooks/AppState';
 
+import Account from './components/Account';
 import './css/App.css';
 
 const Layout = () => {
-	const { state: { user } } = useAppState();
+	
 
 	return (<div className="App">
 
@@ -18,10 +18,7 @@ const Layout = () => {
 			<Outlet />
 		</div>
 
-		<div className="account">
-			<div>{user.username} </div>
-			<div>({user.admin && <span className="admin">Admin</span>})</div>
-		</div>
+		<Account/>
 	</div>);
 };
 
