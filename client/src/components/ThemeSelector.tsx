@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 
-import '../css/ThemeToggle.css';
 import Dropdown from './Dropdown';
 
 type Theme = 'light' | 'dark';
 
-export default function ThemeToggle() {
+export default function ThemeSelector() {
 	const [theme, setTheme] = useState<Theme>('dark');
 
     useEffect(() => {
@@ -14,7 +13,7 @@ export default function ThemeToggle() {
 
 	const themes:Theme[] = ['light', 'dark'];
 
-	return (<div className="ThemeToggle">
+	return (<div className="ThemeSelector">
 		<h4>Theme</h4>
 
 		<Dropdown

@@ -1,7 +1,7 @@
 import '../css/Account.css';
 import { useAppState } from '../hooks/AppState';
 
-import ToggleTheme from './ThemeToggle';
+import ThemeSelector from './ThemeSelector';
 
 export default function Account() {
 	const { state: { user } } = useAppState();
@@ -10,7 +10,7 @@ export default function Account() {
 		<div>{user.username} </div>
 		<div>({user.admin && <span className="admin">Admin</span>})</div>
 		
-		<ToggleTheme />
+		<ThemeSelector />
 
 	</div>);
 }
