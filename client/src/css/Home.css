@@ -24,7 +24,7 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			background-color: color-mix(in oklch, var(--bg), var(--text) 20%);
+			background-color: var(--secondary);
 			color: var(--text);
 			border-radius: 0.5em;
 			box-shadow: 0 0.25em 0 color-mix(in oklch, var(--bg), var(--bg-shadow) 20%);

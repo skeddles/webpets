@@ -18,6 +18,8 @@
 		--primary: #f6c43b;
 		--primary-dark: #582008;
 		--primary-text: var(--primary-dark);
+
+		--secondary: color-mix(in oklch, var(--bg), var(--text) 30%);
 	}
 
 	&[data-theme='light'] {
@@ -28,6 +30,8 @@
 		--primary: #2e2e7a;
 		--primary-dark: #08080f;
 		--primary-text: var(--bg);
+		
+		--secondary: color-mix(in oklch, var(--primary), var(--bg) 40%);
 	}
 
 	/* im sorry. css media queries still dont support using variables, 
