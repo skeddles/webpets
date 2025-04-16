@@ -1,7 +1,8 @@
 import { Client } from '@notionhq/client';
 
 const API_KEY = process.env.NOTION_API_KEY || (() => { throw new Error("NOTION_API_KEY is not defined in environment variables"); })();
-const DATABASE_ID = process.env.NOTION_ARTICLES_DATABASE_ID || (() => { throw new Error("NOTION_ARTICLES_DATABASE_ID is not defined in environment variables"); })();
+const ARTICLES_DATABASE_ID = process.env.NOTION_ARTICLES_DATABASE_ID || (() => { throw new Error("NOTION_ARTICLES_DATABASE_ID is not defined in environment variables"); })();
+const ASSIGNMENTS_DATABASE_ID = process.env.NOTION_ASSIGNMENTS_DATABASE_ID || (() => { throw new Error("NOTION_ASSIGNMENTS_DATABASE_ID is not defined in environment variables"); })();
 const DO_SPACES_CDN_URL = process.env.DO_SPACES_CDN_URL || (() => { throw new Error("DO_SPACES_CDN_URL is not defined in environment variables"); })();
 const DO_SPACES_SUBDIRECTORY = process.env.DO_SPACES_SUBDIRECTORY || (() => { throw new Error("DO_SPACES_SUBDIRECTORY is not defined in environment variables"); })();
 const CDN_PATH = DO_SPACES_CDN_URL + DO_SPACES_SUBDIRECTORY + '/';
@@ -10,8 +11,13 @@ const CDN_PATH = DO_SPACES_CDN_URL + DO_SPACES_SUBDIRECTORY + '/';
 const notion = new Client({auth: API_KEY});
 
 export async function getLessonList() { 
-	const pages = await notion.databases.query({ database_id: DATABASE_ID });
+	const pages = await notion.databases.query({ database_id: ARTICLES_DATABASE_ID });
 	return pages.results;
+}
+
+export async function getAssignments() {
+	const query = await notion.databases.query({ database_id: ASSIGNMENTS_DATABASE_ID });
+	return query.results;
 }
 
 export async function getPageBlocks (blockId:string) { console.log('getting page blocks for', blockId);

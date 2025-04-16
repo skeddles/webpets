@@ -3,6 +3,7 @@ import { getAllLessons } from '../../../queries/lesson/get-all.js';
 import * as notion from '../../../utilities/notion.js';
 import * as storage from '../../../utilities/storage.js';
 import downloadAllFiles from '../../../utilities/download-all-files.js';
+import updateAssignments from '../../../utilities/update-assignments.js';
 
 export default createRouter({}, async (_req, res) => {
 
@@ -19,8 +20,10 @@ export default createRouter({}, async (_req, res) => {
 	for (const lesson of lessonsThatNeedRebuild) {
 		const {files, html} = await notion.getLessonHtml(lesson.pageId);
 		await storage.uploadFile(`lessonz/${lesson.pageId}/${lesson.pageId}.htm`, html, false);
-		await downloadAllFiles(lesson.pageId, files);
+		await downloadAllFiles('lessons/'+lesson.pageId, files);
 	}
+
+	await updateAssignments();
 
 	res.status(200).json({ message: 'lessons rebuilt' });
 });
