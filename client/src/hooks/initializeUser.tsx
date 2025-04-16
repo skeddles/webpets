@@ -11,6 +11,7 @@ export function useInitializeUser () {
 			console.log('no token found, setting user to unauthenticated');
 			return dispatchState({type: 'SET_UNAUTHENTICATED'});
 		}
+		dispatchState({type: 'SET_TOKEN', token});
 
 		try {
 			const response = await fetch(import.meta.env.VITE_API_URL + '/user/self', {
@@ -21,12 +22,7 @@ export function useInitializeUser () {
 			if (!response.ok) throw new Error('request failed');
 			const data = await response.json();
 			
-			dispatchState({type: 'SET_USER', user: {
-				_id: data.user._id, 
-				username: data.user.username, 
-				token: token, 
-				admin: !!data.user.admin,
-			}});
+			dispatchState({type: 'SET_USER', user: data.user});
 
 			console.log('initialized user', data);
 		} catch (error) {

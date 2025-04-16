@@ -8,10 +8,10 @@ class ApiError extends Error {responseData?: any;}
 
 export default function useApiRequest(): ApiRequest {
 	const appState = useAppState();
-	if (typeof appState.state.user !== 'object' || !('token' in appState.state.user)) {
-		throw new Error('user context not found');
+	if (!appState.state.token) {
+		throw new Error('user token not found');
 	}
-	const token = (appState.state.user as ClientUser).token;
+	const token = appState.state.token;
 
 	return async (path: string, body: object | undefined) => {
 		const url = API_URL + '/' + path;

@@ -1,13 +1,8 @@
 type User = {
-	_id: ObjectId;
+	_id: ObjectId | string;
 	username: string;
 	password: string;
 	admin: boolean;
+	purchasedLessons: ObjectId[];
+	purchasedCourses: ObjectId[];
 };
-
-type ClientUser = Omit<User, "_id" | "password"> & {
-	id: string;
-	token: string;
-	lessons: Lesson[];
-};
-

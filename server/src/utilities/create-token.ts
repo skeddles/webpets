@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'secret';
 
-export default async function createToken(userId:ObjectId) {
+export default async function createToken(userId:IdOrString) {
     const payload:UserTokenPayload = {user: {id: userId.toString()}};
 	return await signedToken(payload);
 }
