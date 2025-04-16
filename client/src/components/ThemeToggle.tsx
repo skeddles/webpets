@@ -1,25 +1,27 @@
 import { useState, useEffect } from 'react';
 
 import '../css/ThemeToggle.css';
+import Dropdown from './Dropdown';
 
 type Theme = 'light' | 'dark';
 
 export default function ThemeToggle() {
 	const [theme, setTheme] = useState<Theme>('dark');
 
-    // Update the `data-theme` attribute on the root element when the theme changes
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme)
     }, [theme])
 
-    // Toggle between light and dark themes
-    const toggleTheme = () => {
-        setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'))
-    }
+	const themes:Theme[] = ['light', 'dark'];
 
 	return (<div className="ThemeToggle">
-		<button onClick={toggleTheme}>
-			Switch to {theme === 'dark' ? 'Light' : 'Dark'} Mode
-		</button>
+		<h4>Theme</h4>
+
+		<Dropdown
+			label="Theme"
+			value={theme}
+			setValue={setTheme}
+			options={themes}
+			/>
 	</div>);
 }
