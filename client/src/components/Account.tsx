@@ -1,11 +1,7 @@
 import '../css/Account.css';
 import { useAppState } from '../hooks/AppState';
 
-interface AccountProps {
-
-}
-
-export default function Account({}: AccountProps) {
+export default function Account() {
 	const { state: { user } } = useAppState();
 
 	return (<div className="Account">

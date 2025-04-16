@@ -2,12 +2,6 @@
 
 	display: flex;
 	justify-content: space-between;
-	
-	.navigation {
-		display: flex;
-		flex-direction: column;
-		width: 10em;
-	}
 
 	.tab {
 		width: 40em;
