@@ -7,3 +7,9 @@
 		width: var(--content-width);
 	}
 }
+
+@media (max-width: 64em) {
+	.App {
+		justify-content: center;
+	}
+} 
