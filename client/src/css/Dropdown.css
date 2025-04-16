@@ -1,0 +1,164 @@
+.Dropdown {
+
+
+	/*variables*/
+	--button-background: color-mix(in oklch, var(--bg), var(--text) 20%);
+	--button-text: color-mix(in oklch, var(--bg), var(--text) 20%);
+	--button-side: color-mix(in oklch, var(--bg), black 10%);
+	--bg-shadow: color-mix(in oklch, var(--bg), black 25%);
+	--button-pressed: color-mix(in oklch, var(--button-background), var(--primary-dark) 10%);
+	--button-hovered: color-mix(in oklch, var(--bg), var(--text) 30%);
+	--button-options-bg: color-mix(in oklch, var(--button-background), black 30%);
+	--button-options-text: color-mix(in oklch, var(--text), var(--button-options-bg) 30%);
+
+	/*text*/
+	font-family: "Dosis", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 600;
+	font-style: normal;
+	font-size: 1rem;
+	text-transform: uppercase;
+	color: var(--text);
+	svg path {fill: var(--text);}
+
+	/* box */
+	display: flex;
+	justify-content: space-between;
+	padding: 0.25em 1em;
+	border-radius: 0.5em;
+	border: none;
+	background: var(--button-background);
+	position: relative;
+	margin: 1em 0 0.5em;
+	width: 10em;
+	max-width: 100%;
+
+
+	.selectedValue {
+		margin: 0 0.75em 0 0;
+		font-weight: 600;
+	}
+
+	.button-icon {
+		svg {
+			width: 0.75em;
+			height: 0.75em;
+			vertical-align: baseline;
+		}
+	}
+
+	.label {
+		display: inline-block;
+		background: #2b2b2b;
+		color: #d4d4d4;
+		border-radius: 2px 1em 1em 2px;
+		padding: 0.25em 0.75em 0.25em 0.5em;
+		font-weight: 500;
+		svg path {fill: #d4d4d4;}
+	}
+
+	.options {
+		display: none;
+		position: absolute;
+		top: 100%;
+		left: 0;
+		width: 100%;
+		background: var(--button-background);
+		text-align: left;
+		padding: 0 2px 2px 2px;
+		box-sizing: border-box;
+		z-index: 2;
+		border-radius: 0 0 0.5em 0.5em;
+		box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+		color: var(--text);
+
+		h6 {
+			margin: 0;
+			padding: 0.5em 1em 0.25em;
+			color: var(--text);
+			background-color: var(--button-background);
+			font-size: 0.6rem;
+		}
+
+		.option {
+			background: var(--button-options-bg);
+			padding: 0.25em 0.75em;
+			color: var(--button-options-text);
+
+			svg {
+				margin-left: 0.25em;
+				path {fill: var(--button-background);}
+				top: 0.25em;
+			}
+
+			&.selected {
+				color: var(--text);
+				font-weight: 800;
+			}
+
+			&:hover {
+				background: var(--button-background);
+				color: #fff;
+				svg path {fill: #fff;}
+			}
+			&:last-child {
+				border-radius: 0 0 0.5em 0.5em;
+			}
+		}
+	}
+
+
+	&:not([aria-disabled="true"]) {		
+		cursor: pointer;
+		top: -0.25em;
+		box-shadow: 
+			0 0.25em 0 var(--button-side), /* 3d bottom edge */ 
+			0.25em 0.25em 0 var(--bg-shadow); /* cast shadow */ 
+		transition: 
+			top 100ms cubic-bezier(.47,4,.41,.8),
+			box-shadow 100ms cubic-bezier(.47,4,.41,.8);
+
+		&:not(.open):hover {
+			background: var(--button-hovered);
+			top: -0.375em;
+			box-shadow: 
+				0 0.375em 0 var(--button-side), /* 3d bottom edge */ 
+				0.375em 0.375em 0 var(--bg-shadow); /* cast shadow */ 
+			transition: 
+				top 100ms cubic-bezier(.47,4,.41,.8),
+				box-shadow 100ms cubic-bezier(.47,4,.41,.8);
+		}
+		&:active {
+			background: var(--button-pressed);
+			top: 0.25em;
+			box-shadow: 
+				0 -0.375em 0 var(--bg-shadow), /* 3d inset bg wall */ 
+				0 0 0 transparent, /* remove cast shadow */ 
+				0 -0.25em 0 inset var(--bg), /* mask 3d bottom edge */ 
+				0 -0.25em 0 inset var(--bg), /* mask 3d bottom edge */ 
+				0 -0.25em 0 inset var(--bg), /* mask 3d bottom edge */ 
+				0 -0.25em 0 inset var(--bg), /* mask 3d bottom edge */ 
+
+				1em -0.125em 0 -0.75em inset var(--button-side); /* inner cast shadow */ 
+			transition: 
+				top 10ms cubic-bezier(.47,1,.41,.8),
+				box-shadow 10ms cubic-bezier(.47,1,.41,.8);
+
+		}
+	}
+
+
+
+	&.open {
+		z-index: 3;
+		border-radius: 0.5em 0.5em 0 0;
+
+		.label {
+			border-radius: 2px 1em 2px 2px;
+		}
+
+		.options {
+			display: block;
+		}
+	}
+}
