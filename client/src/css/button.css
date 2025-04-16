@@ -23,11 +23,6 @@
 		background: var(--primary);
 		position: relative;
 
-		
-		
-
-
-
 		&:not([aria-disabled="true"]) {		
 			cursor: pointer;
 			top: -0.25em;
@@ -77,51 +72,3 @@
 		}
 	}
 }
-
-
-
-/* button {
-	background-color: var(--primary);
-	border: none;
-	border-radius: 0.4em;
-	padding: 0.5em 1em;
-	font-weight: 600;
-	font-size: 1.25rem;
-	cursor: pointer;
-	transition: transform 100ms cubic-bezier(.47,3,.41,.8), background-color 100ms ease-in, border-size 100ms ease-in;
-
-	margin: 1em 0;
-
-	font-family: "Dosis", sans-serif;
-	font-optical-sizing: auto;
-	font-weight: 800;
-	font-style: normal;
-
-	color: var(--primary-text);
-
-	border-bottom: 0.25em solid color-mix(in srgb, var(--primary), var(--primary-dark) 50%);
-
-	box-shadow: color-mix(in srgb, var(--bg), var(--bg-shadow) 50%) 0.2em 0.2em 0;
-
-	&:not([aria-disabled="true"]) {		
-		&:hover {
-			background-color: color-mix(in srgb, var(--primary), white 20%);
-			transform: scale(1.05);
-			box-shadow: color-mix(in srgb, var(--bg), var(--bg-shadow) 50%) 0.2em 0.3em 0;
-		}
-		&:active {
-			background-color: color-mix(in srgb, var(--primary), black 20%);
-			box-shadow: none;
-			transform: scale(0.95);
-		}
-	}
-
-	&[aria-disabled="true"] {
-		background-color: color-mix(in srgb, var(--bg), black 50%);
-		color: var(--bg);
-		border-bottom: none;
-		border-top: 0.25em solid var(--bg);
-		cursor: not-allowed;
-		box-shadow: none;
-	}
-} */
