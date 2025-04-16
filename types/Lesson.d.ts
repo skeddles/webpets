@@ -6,4 +6,5 @@ type Lesson = {
 	number: number;
 	pageId: string;
 	slug: string;
+	course: string;
 }

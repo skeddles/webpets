@@ -8,17 +8,7 @@ const schema = {
 
 export default createRouter(schema, async (req, res) => {
 	const { slug } = req.body;
-	const lessonData = await getLessonBySlug(slug);
-	const url = await getPresignedUrl(`lessonz/${lessonData.pageId}/${lessonData.pageId}.htm`);
-	const lesson:LessonClient = {
-		number: lessonData.number,
-		title: lessonData.title,
-		description: lessonData.description,
-		level: lessonData.level,
-		slug: lessonData.slug,
-		pageId: lessonData.pageId,
-		course: 'Beginner Pixel Art',
-		url: url + '&t=' + Date.now(),
-	};
-	res.status(200).json({ lesson: lesson as LessonClient });
+	const lesson = await getLessonBySlug(slug);
+	const url = await getPresignedUrl(`lessonz/${lesson.pageId}/${lesson.pageId}.htm`);
+	res.status(200).json({ lesson, url });
 });

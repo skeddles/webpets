@@ -18,7 +18,8 @@ export default function Lesson({}: LessonProps) {
 	const apiRequest = useApiRequest();
 	const location = useLocation();;
 
-	const [lesson, setLesson] = useState<LessonClient | null>(location.state?.lesson || null);
+	const [lesson, setLesson] = useState<Lesson| null>(location.state?.lesson || null);
+	const [lessonUrl, setLessonUrl] = useState<string | null>(null);
 	const [lessonHtml, setLessonHtml] = useState<string | null>(null);
 	const [adminError, setRebuildError] = useState('');
 
@@ -27,26 +28,34 @@ export default function Lesson({}: LessonProps) {
 		loadLesson();
 	}, []);
 
+	useEffect(() => {
+		if (lessonUrl) {
+			console.log('loading html from', lessonUrl);
+			fetchLessonHtml(lessonUrl)
+				.then((lessonHtmlText) => {
+					setLessonHtml(lessonHtmlText);
+					console.log('lessonHtmlText', lessonHtmlText);
+				})
+				.catch((error) => {
+					console.error('Error fetching lesson HTML:', error);
+				});
+		}
+	}, [lessonUrl]);
+
 	async function loadLesson() {
 		try {
 			let lessonData = lesson;
-			if (lessonData === null) {
-				lessonData = await apiRequest('lesson/get', { slug });
-				if (!lessonData) throw new Error('Lesson data is null');
-				setLesson(lessonData);
+			if (!lesson) {
+				const result = await apiRequest('lesson/get', { slug });
+				if (!result) throw new Error('Lesson data is null');
+				setLesson(result.lesson);
+				setLessonUrl(result.url);
 				console.log('lessonData', lessonData);
-			}
-			else if (lessonData.url === undefined) {
+			} else if (!lessonUrl) {
 				console.log('already have lessonData, fetching url');
-				lessonData.url = (await apiRequest('lesson/get-url', { pageId: lessonData.pageId })).url;
-				setLesson(lessonData);
+				const url = (await apiRequest('lesson/get-url', { pageId: lesson.pageId })).url;
+				setLessonUrl(url);
 			}
-			if (!lessonData.url) throw new Error('Lesson URL is null');
-			
-			const lessonHtmlText = await fetchLessonHtml(lessonData.url);
-			setLessonHtml(lessonHtmlText);
-			console.log('lessonHtmlText', lessonHtmlText);
-
 		} catch (error) {
 			console.error('Error fetching lesson:', error);
 		}
@@ -54,10 +63,10 @@ export default function Lesson({}: LessonProps) {
 
 
 	async function handleLessonRebuiltSuccess() {
-		if (!lesson || !lesson.url) throw new Error('Lesson is null');
+		if (!lesson || !lessonUrl) throw new Error('Lesson is null');
 		console.log('Lesson rebuilt successfully');
 		setLessonHtml(null);
-		const lessonHtmlText = await fetchLessonHtml(lesson.url);
+		const lessonHtmlText = await fetchLessonHtml(lessonUrl);
 		setLessonHtml(lessonHtmlText);
 	}
 
