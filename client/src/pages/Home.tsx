@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import useApiRequest from '../hooks/ApiRequest';
 import { useAppState } from '../hooks/AppState';
 
-import './Home.css';
+import '../css/Home.css';
 
 
 export default function Home() {
