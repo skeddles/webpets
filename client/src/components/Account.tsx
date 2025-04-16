@@ -1,7 +1,8 @@
-import '../css/Account.css';
 import { useAppState } from '../hooks/AppState';
 
 import ThemeSelector from './ThemeSelector';
+
+import '../css/Account.css';
 
 export default function Account() {
 	const { state: { user } } = useAppState();
