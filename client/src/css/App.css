@@ -1,15 +1,9 @@
 .App {
 
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 
 	.tab {
 		width: var(--content-width);
 	}
 }
-
-@media (max-width: 64em) {
-	.App {
-		justify-content: center;
-	}
-} 
