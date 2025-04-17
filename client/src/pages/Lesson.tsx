@@ -104,9 +104,14 @@ export default function Lesson({}: LessonProps) {
 				{lessonHtml && <div className="lesson-html" dangerouslySetInnerHTML={{ __html: lessonHtml }} />}
 			</article>
 
-			<CompletedButton complete={true}/>
+			<div className="complete-assignment">
+				<p>When you've finished reading, mark this lesson as complete to unlock the assignments!</p>
+				<CompletedButton complete={true}/>
+			</div>
+			
 			
 			<Assignments lessonSlug={lesson.slug} />
+			
 		</>}
 		
 	</div>);
