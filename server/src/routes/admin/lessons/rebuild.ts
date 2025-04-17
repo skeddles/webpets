@@ -14,7 +14,7 @@ export default createRouter(schema, async (req, res) => {
 	const lesson = await getLessonBySlug(slug);
 	const {files, html} = await notion.getPageHtml(lesson.pageId);
 
-	await updateAssignments(lesson.title);
+	await updateAssignments(lesson.slug);
 
 	await storage.uploadFile(`lessonz/${lesson.pageId}/${lesson.pageId}.htm`, html, false);
 	await downloadAllFiles('lessons/'+lesson.pageId, files);

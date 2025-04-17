@@ -2,7 +2,9 @@ import { PartialDatabaseObjectResponse } from "@notionhq/client/build/src/api-en
 import { getAssignments } from "./notion";
 import { upsertAssignment } from "../queries/assignments/upsert";
 import downloadAllFiles from "./download-all-files";
-import { z, ZodRawShape } from 'zod';
+import { z } from 'zod';
+import notion from "./notion";
+
 
 type NotionAssignmentsDatabaseObject = PartialDatabaseObjectResponse & {
 	id: string;
@@ -24,13 +26,25 @@ const assignmentSchema = z.object({
 	lessonSlug: z.string().regex(/^[a-z0-9-]+$/),
 	worksheet: z.string(),
 	worksheetExtension: z.literal('png'),
+	html: z.string().min(20),
+	files: z.array(z.object({
+		id: z.string(),
+		url: z.string().url()
+	}))
 });
 
-export default async function updateAssignments(lessonName:string|null = null) {
+export default async function updateAssignments(slug:string|null = null) {
 	const assignments = await getAssignments();
 
+	const images = [];
+
+	console.log('assignments', assignments);
+
+	if (slug) console.log('updating assignments for /lesson/'+slug);
+	else console.log('updating all assignments');
+
 	for (const assignment of assignments as NotionAssignmentsDatabaseObject[]) {
-		if (lessonName && assignment.properties.LessonSlug.select?.name !== lessonName) continue;
+		if (slug && assignment.properties.LessonSlug.select?.name !== slug) continue;
 
 		try {
 			const notionId = assignment.id;
@@ -41,16 +55,22 @@ export default async function updateAssignments(lessonName:string|null = null) {
 			const lessonSlug = assignment.properties.LessonSlug.select?.name;
 			const worksheet = assignment.properties.Worksheet.files[0]?.file.url;
 			const worksheetExtension = getFileExtension(assignment.properties.Worksheet.files[0]?.name);
+			const {html, files} = await notion.getPageHtml(notionId);
 
-			assignmentSchema.parse({name, number, optional, repeatable, lessonSlug, worksheet, worksheetExtension});
+			console.log('assignment', assignment.id, name, html);
 
-			await upsertAssignment(notionId, lessonSlug, name, number, optional, repeatable);
-			await downloadAllFiles(`assignments`, [{url:worksheet, id:`${notionId}.${worksheetExtension}`}]);
+			assignmentSchema.parse({name, number, optional, repeatable, lessonSlug, worksheet, worksheetExtension, html, files});
+
+			await upsertAssignment(notionId, lessonSlug, name, number, optional, repeatable, html);
+			images.push({url:worksheet, id:`${notionId}.${worksheetExtension}`});
+			images.push(...files);
 			console.log('assignment upserted:', assignment.id);
 		} catch (error) {
 			console.error('Failed to upsert assignment',assignment.id, error);
 		}
 	}
+
+	await downloadAllFiles(`assignments`, images);
 }
 
 function getFileExtension(path:string) {

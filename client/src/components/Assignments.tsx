@@ -61,11 +61,8 @@ export default function Assignments({lessonSlug}: AssignmentsProps) {
 
 					</div>
 					
-					<div className="description">
-						<p>Number: {assignment.number}</p>
-						<p>Optional: {assignment.optional ? 'Yes' : 'No'}</p>
-						<p>Repeatable: {assignment.repeatable ? 'Yes' : 'No'}</p>
-						<p>Slug: {assignment.lessonSlug}</p>
+					<div className="description" dangerouslySetInnerHTML={{__html: assignment.description}}>
+
 					</div>
 				</div>
 			);

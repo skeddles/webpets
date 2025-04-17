@@ -6,4 +6,5 @@ type Assignment = {
 	number: number;
 	optional: boolean;
 	repeatable: boolean;
+	description: string;
 }

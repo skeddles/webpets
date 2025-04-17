@@ -17,5 +17,14 @@
 				
 			}
 		}
+
+		.description {
+			flex: 1;
+			flex-shrink: 1;
+
+			p:first-child {
+				margin-top: 0;
+			}
+		}
 	}
 }
