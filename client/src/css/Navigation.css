@@ -71,13 +71,13 @@
 	}
 }
 
-@media (max-width: 76em) {
+@media (max-width: 86em) { /* 40 + 12 + 12 + 12 + 12 */
 	.Navigation .header .page-top-bar {
 		height: calc(100% + 0.5em);
 	}
 }
 
-@media (max-width: 64em) {
+@media (max-width: 64em) { /* 40 + 12 + 12 */
 	.Navigation {
 		position: fixed;
 		top: 0;
