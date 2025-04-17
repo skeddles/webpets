@@ -6,6 +6,7 @@ import { useAppState } from '../hooks/AppState';
 import RequestButton from '../components/RequestButton';
 import ErrorMessage from '../components/ErrorMessage';
 import Assignments from '../components/Assignments';
+import CompletedButton from '../components/CompletedButton';
 
 import '../css/Lesson.css';
 
@@ -102,6 +103,8 @@ export default function Lesson({}: LessonProps) {
 				{!lessonHtml && <div className="loading">Loading lesson HTML...</div>}
 				{lessonHtml && <div className="lesson-html" dangerouslySetInnerHTML={{ __html: lessonHtml }} />}
 			</article>
+
+			<CompletedButton complete={true}/>
 			
 			<Assignments lessonSlug={lesson.slug} />
 		</>}

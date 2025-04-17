@@ -22,6 +22,7 @@
 		--primary-text: var(--primary-dark);
 
 		--secondary: color-mix(in oklch, var(--bg), var(--text) 30%);
+		--secondary-dark: color-mix(in oklch, var(--bg), var(--text) 15%);
 	}
 
 	&[data-theme='light'] {
@@ -38,6 +39,10 @@
 		--bg-inset: color-mix(in oklch, var(--bg), var(--primary) 25%);
 		--secondary: color-mix(in oklch, var(--primary), var(--bg) 40%);
 	}
+
+	--green: #7ca925;
+	--green-light: #e9ff7b;
+	--green-dark: #235413;
 
 	/* im sorry. css media queries still dont support using variables, 
 	so if you change these values, also change the calculated variables in 
