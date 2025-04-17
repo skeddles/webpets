@@ -1,11 +1,11 @@
-import {Completions} from '../../database.js';
+import { Completions, id } from '../../database.js';
 
 type CompletionInsert = Omit<Completion, '_id'>;
 
 export async function insertCompletion(userId:IdOrString, contentId:string, type:CompletionType) {
 	const completionInsert:CompletionInsert = {
-		userId,
-		contentId,
+		userId: id(userId),
+		contentId: id(contentId),
 		type
 	};
 	const insertResult = await Completions.insertOne(completionInsert);
