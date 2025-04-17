@@ -49,7 +49,6 @@ export default function Assignments({lessonSlug}: AssignmentsProps) {
 
 	return (<div className="Assignments" ref={AssignmentsRef}>
 		<h1>Assignments</h1>
-		ass {lessonSlug} 
 		{assignments && assignments.map((assignment) => {
 			return (
 				<div key={assignment._id} className="assignment">
