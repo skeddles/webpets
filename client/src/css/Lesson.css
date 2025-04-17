@@ -28,7 +28,7 @@
 		hr {
 			border: 0;
 			height: 0.25em;
-			background: color-mix(in srgb, var(--bg), var(--bg-shadow) 50%);
+			background: var(--bg-inset);
 			border-radius: 1em;
 			margin: 2em 0;
 			margin-bottom: 4em;
@@ -36,7 +36,7 @@
 
 		figure {
 			display: flex;
-			background: color-mix(in srgb, var(--bg), var(--bg-shadow) 50%);
+			background: var(--bg-inset);
 			padding: 1em;
 			border-radius: 0.5em;
 
