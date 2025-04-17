@@ -55,12 +55,16 @@
 	font-variation-settings: "wdth" 100;
 }
 
-
-h1, h2, h3, h4, h5, h6 {
+/* Header Font */
+button, h1, h2, h3, h4, h5, h6 {
 	font-family: "Dosis", sans-serif;
 	font-optical-sizing: auto;
 	font-weight: 800;
 	font-style: normal;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
 	color: var(--primary);
 	margin: 2em 0 0.5em;
 	text-shadow: color-mix(in srgb, var(--bg), var(--bg-shadow) 50%) 0.05em 0.05em 0 ;

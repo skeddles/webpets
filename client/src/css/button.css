@@ -7,10 +7,6 @@
 		--button-hovered: color-mix(in oklch, var(--primary), white 10%);
 
 		/*text*/
-		font-family: "Dosis", sans-serif;
-		font-optical-sizing: auto;
-		font-weight: 800;
-		font-style: normal;
 		font-size: 1.25rem;
 		text-transform: uppercase;
 		color: var(--primary-text);
