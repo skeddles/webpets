@@ -3,6 +3,8 @@ import useApiRequest from '../hooks/ApiRequest';
 
 import '../css/Assignments.css';
 
+const CDN = import.meta.env.VITE_DO_SPACES_CDN_PATH;
+
 interface AssignmentsProps {
 	lessonSlug: string;
 }
@@ -52,6 +54,8 @@ export default function Assignments({lessonSlug}: AssignmentsProps) {
 			return (
 				<div key={assignment._id} className="Assignment">
 					<h2>{assignment.name}</h2>
+					<img src={CDN+`/assignments/${assignment.notionId}.png`}/>
+					
 					<p>Number: {assignment.number}</p>
 					<p>Optional: {assignment.optional ? 'Yes' : 'No'}</p>
 					<p>Repeatable: {assignment.repeatable ? 'Yes' : 'No'}</p>
