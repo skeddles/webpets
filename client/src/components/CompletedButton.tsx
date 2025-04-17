@@ -5,6 +5,7 @@ import '../css/CompletedButton.css';
 
 import Check from '../assets/svg/check.svg?react';
 import Minus from '../assets/svg/minus.svg?react';
+import LoadingSpinner from './LoadingSpinner';
 
 
 interface CompletedButtonProps {
@@ -17,6 +18,10 @@ interface CompletedButtonProps {
 export default function CompletedButton({complete, type, contentId, onSuccess}: CompletedButtonProps) {
 	const [loading, setLoading] = useState(false);
 	const apiRequest = useApiRequest();
+
+
+	let currentIcon = complete ? <Check /> : <Minus />;
+	if (loading) currentIcon = <LoadingSpinner />;
 
 	async function handleClick() {
 		if (loading) return;
@@ -43,15 +48,16 @@ export default function CompletedButton({complete, type, contentId, onSuccess}: 
 		}
 	}
 
+	let buttonClass = complete ? 'completed' : 'incomplete';
+	if (loading) buttonClass += ' loading';
+
 	return (<div className="CompletedButton">
-		<button className={complete ? 'completed' : 'incomplete'} onClick={handleClick}>
+		<button className={buttonClass} onClick={handleClick}>
 			<div className="text">
 				{complete ? 'Completed' : 'Incomplete'}
 			</div>
 
-			<div className="icon">
-				{complete ? <Check /> : <Minus />}
-			</div>
+			<div className="icon">{currentIcon}</div>
 		</button>
 	</div>);
 }

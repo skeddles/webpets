@@ -23,6 +23,7 @@
 
 		--secondary: color-mix(in oklch, var(--bg), var(--text) 30%);
 		--secondary-dark: color-mix(in oklch, var(--bg), var(--text) 15%);
+		--secondary-light: color-mix(in oklch, var(--bg), var(--text) 50%);
 	}
 
 	&[data-theme='light'] {
@@ -37,7 +38,10 @@
 		--primary-text: var(--bg);
 		
 		--bg-inset: color-mix(in oklch, var(--bg), var(--primary) 25%);
+		
 		--secondary: color-mix(in oklch, var(--primary), var(--bg) 40%);
+		--secondary-dark: color-mix(in oklch, var(--primary), var(--bg) 20%);
+		--secondary-light: color-mix(in oklch, var(--primary), var(--bg) 50%);
 	}
 
 	--green: #7ca925;

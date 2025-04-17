@@ -1,5 +1,25 @@
 .CompletedButton {
 
+	button.completed {
+		--button-bg: var(--green);
+		--button-side: color-mix(in oklch, var(--green), var(--green-dark) 50%);
+		--bg-shadow: color-mix(in oklch, var(--bg), black 25%);
+		--button-pressed: color-mix(in oklch, var(--green), var(--green-dark) 20%);
+		--button-hovered: color-mix(in oklch, var(--green), var(--green-light) 20%);
+		--icon-bg: color-mix(in oklch, var(--green), var(--green-dark) 50%);
+		--icon-color: var(--green-light);
+	}
+
+	button.incomplete {
+		--button-bg: var(--secondary);
+		--button-side: var(--secondary-dark);
+		--bg-shadow: color-mix(in oklch, var(--bg), black 25%);
+		--button-pressed: color-mix(in oklch, var(--secondary), var(--secondary-dark) 20%);
+		--button-hovered: color-mix(in oklch, var(--secondary), white 10%);
+		--icon-bg: var(--secondary-dark);
+		--icon-color: var(--secondary-light);
+	}
+
 	button {
 		font-size: 1.5em;
 		display: flex;
@@ -7,9 +27,8 @@
 		align-items: center;
 		padding: 0.25em 0.5em;
 		position: relative;
-
 		border-radius: 1.5em;
-	
+		background-color: var(--button-bg);
 
 		.text {
 			width: 5em;
@@ -25,40 +44,11 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
-
-
+			background-color: var(--icon-bg);
+			svg path { fill: var(--icon-color); }
 		}
 
-		&.completed {
-			--button-bg: var(--green);
-			--button-side: color-mix(in oklch, var(--green), var(--green-dark) 50%);
-			--bg-shadow: color-mix(in oklch, var(--bg), black 25%);
-			--button-pressed: color-mix(in oklch, var(--green), var(--green-dark) 20%);
-			--button-hovered: color-mix(in oklch, var(--green), var(--green-light) 20%);
-
-			.icon {
-				background-color: color-mix(in oklch, var(--green), var(--green-dark) 50%);
-				svg path { fill: var(--green-light); }
-			}
-		}
-
-		&.incomplete {
-			--button-bg: var(--secondary);
-			--button-side: var(--secondary-dark);
-			--bg-shadow: color-mix(in oklch, var(--bg), black 25%);
-			--button-pressed: color-mix(in oklch, var(--secondary), var(--secondary-dark) 20%);
-			--button-hovered: color-mix(in oklch, var(--secondary), white 10%);
-
-			.icon {
-				background-color: color-mix(in oklch, var(--secondary), var(--secondary-dark) 80%);
-				svg path {fill: var(--text);}
-			}
-		}
-
-		background-color: var(--button-bg);
-
-
-		&:not([aria-disabled="true"]) {		
+		&:not(.loading) {		
 			top: -0.25em;
 			box-shadow: 
 				0 0.25em 0 var(--button-side), /* 3d bottom edge */ 
@@ -92,10 +82,23 @@
 				transition: 
 					top 10ms cubic-bezier(.47,1,.41,.8),
 					box-shadow 10ms cubic-bezier(.47,1,.41,.8);
-
 			}
 		}
 
+		&.loading {
+			cursor: wait;
+			top: 0;
+			color: var(--bg);			
+			background-color: color-mix(in oklch, var(--bg), var(--secondary) 50%);
 
+			.icon {
+				background-color: var(--bg);
+				svg path { fill: color-mix(in oklch, var(--bg), var(--secondary) 50%); }
+				.LoadingSpinner { 
+					top: auto;
+					--spinner-color: color-mix(in oklch, var(--bg), var(--secondary) 50%);
+				}
+			}
+		}
 	}
 }
