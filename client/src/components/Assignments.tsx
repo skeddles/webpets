@@ -52,14 +52,21 @@ export default function Assignments({lessonSlug}: AssignmentsProps) {
 		ass {lessonSlug} 
 		{assignments && assignments.map((assignment) => {
 			return (
-				<div key={assignment._id} className="Assignment">
+				<div key={assignment._id} className="assignment">
 					<h2>{assignment.name}</h2>
-					<img src={CDN+`/assignments/${assignment.notionId}.png`}/>
+
+					<div className="worksheet">
+
+						<img src={CDN+`/assignments/${assignment.notionId}.png`}/>
+
+					</div>
 					
-					<p>Number: {assignment.number}</p>
-					<p>Optional: {assignment.optional ? 'Yes' : 'No'}</p>
-					<p>Repeatable: {assignment.repeatable ? 'Yes' : 'No'}</p>
-					<p>Slug: {assignment.lessonSlug}</p>
+					<div className="description">
+						<p>Number: {assignment.number}</p>
+						<p>Optional: {assignment.optional ? 'Yes' : 'No'}</p>
+						<p>Repeatable: {assignment.repeatable ? 'Yes' : 'No'}</p>
+						<p>Slug: {assignment.lessonSlug}</p>
+					</div>
 				</div>
 			);
 		})}
