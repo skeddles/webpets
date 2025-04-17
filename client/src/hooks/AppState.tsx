@@ -3,12 +3,15 @@ import { createContext, useContext, useReducer, FC, ReactNode } from 'react';
 type AppState = {
 	user: User | 'loading' | 'unregistered';
 	token: string | null;
+	lessons: Lesson[] | null;
+	completedLessons: string[] | null;
 };
 
 type SetUserAction = {type: 'SET_USER'; user: User};
 type SetUnauthenticatedAction = {type: 'SET_UNAUTHENTICATED'};
 type SetToken = {type: 'SET_TOKEN'; token: string};
-type Action = SetUserAction | SetUnauthenticatedAction | SetToken;
+type SetLessons = {type: 'SET_LESSONS'; lessons: Lesson[]; completedLessons: string[] | null};
+type Action = SetUserAction | SetUnauthenticatedAction | SetToken | SetLessons;
 
 
 type StateContext = {
@@ -17,7 +20,12 @@ type StateContext = {
 };
 
 type UseStateReturnType = {
-	state: {user: User, token: string};
+	state: {
+		user: User, 
+		token: string, 
+		lessons: Lesson[] | null,
+		completedLessons: string[] | null
+	};
 	dispatchState: (action: Action) => void, 
 }
 
@@ -28,12 +36,16 @@ const stateReducer = (state: AppState, action: Action): AppState => {
 		return { ...state, user: 'unregistered' };
 	if (action.type === 'SET_TOKEN') 
 		return { ...state, token: action.token };
+	if (action.type === 'SET_LESSONS')
+		return { ...state, lessons: action.lessons, completedLessons: action.completedLessons };
 	throw new Error(`Unhandled action type: ${(action as Action).type}`);
 };
 
 const initialState: AppState = {
 	user: 'loading',
 	token: null,
+	lessons: null,
+	completedLessons: null
 };
 
 export const AppStateContext = createContext<StateContext>({

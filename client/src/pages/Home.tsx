@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Link } from "react-router";
 import useApiRequest from '../hooks/ApiRequest';
 import { useAppState } from '../hooks/AppState';
@@ -7,76 +7,76 @@ import '../css/Home.css';
 
 
 export default function Home() {
-	const { state: { user } } = useAppState();
+	const { state: { user, lessons}, dispatchState } = useAppState();
 	const apiRequest = useApiRequest();
-	const [lessons, setLessons] = useState<Lesson[]>([]);
 
 	console.log('rendering Home');
 
 	useEffect(() => {
-		if (!lessons) return;
+		if (lessons) return;
 		loadLessons();
 	}, []);
 
 	async function loadLessons() {
 		try {
-			const result = await apiRequest('lesson/get-all', {});
-			if (!result) throw new Error('failed to fetch lessons');
+			const {lessons, completedLessons} = await apiRequest('lesson/get-all', {});
 
-			setLessons(result.lessons);
-			console.log('lessons', result.lessons);
+			dispatchState({ type: 'SET_LESSONS', lessons, completedLessons });
+			console.log('lessons', { lessons, completedLessons });
 		} catch (error) {
 			console.error('Error fetching lessons:', error);
 		}
 	}
 
-	lessons.forEach((lesson) => {
-		console.log('lesson', {
-			lesson,
-			purchased: user.purchasedLessons.includes(lesson._id),
-			id: lesson._id,
-			purchasedLessons: user.purchasedLessons,
-			user,
-		});
-	});
-
-	const purchasedLessons = lessons.filter((lesson) => user.purchasedLessons.includes(lesson._id));
-	const unpurchasedLessons = lessons.filter((lesson) => !user.purchasedLessons.includes(lesson._id));
+	// lessons.forEach((lesson) => {
+	// 	console.log('lesson', {
+	// 		lesson,
+	// 		purchased: user.purchasedLessons.includes(lesson._id),
+	// 		id: lesson._id,
+	// 		purchasedLessons: user.purchasedLessons,
+	// 		user,
+	// 	});
+	// });
 
 	return (<div className="Home">
 		<h1>Home</h1>
 		
-		<h2>Your Lessons</h2>
-		<div className="lesson-list">
-			{purchasedLessons.map((lesson) => (
-				<Link 
-					className="lesson" 
-					to={'/lesson/'+lesson.slug} 
-					key={lesson.slug} 
-					state={{ lesson }}
-					>
-						<div>{lesson.title}</div>
+		{lessons && <>
+			<h2>Your Lessons</h2>
+			<div className="lesson-list">
+				{lessons
+					.filter((lesson) => user.purchasedLessons.includes(lesson._id))
+					.map((lesson) => (
+						<Link 
+							className="lesson" 
+							to={'/lesson/'+lesson.slug} 
+							key={lesson.slug} 
+							state={{ lesson }}
+							>
+								<div>{lesson.title}</div>
 
-				</Link>
-			))}
-		</div>
+						</Link>
+				))}
+			</div>
 
-		<h2>Shop</h2>
-		<div className="lesson-list">
-			{unpurchasedLessons.map((lesson) => (
-				<Link 
-					className="lesson" 
-					to={'/lesson/'+lesson.slug} 
-					key={lesson.slug} 
-					state={{ lesson }}
-					>
-						<div>{lesson.title}</div>
+			<h2>Shop</h2>
+			<div className="lesson-list">
+				{lessons
+					.filter((lesson) => !user.purchasedLessons.includes(lesson._id))
+					.map((lesson) => (
+						<Link 
+							className="lesson" 
+							to={'/lesson/'+lesson.slug} 
+							key={lesson.slug} 
+							state={{ lesson }}
+							>
+								<div>{lesson.title}</div>
 
-				</Link>
-			))}
-		</div>
+						</Link>
+				))}
+			</div>
 
-
-
+		</>}
+		{!lessons && <div className="loading">Loading...</div>}
 	</div>);
 }
