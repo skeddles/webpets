@@ -73,8 +73,8 @@ export default function Lesson({}: LessonProps) {
 		setLessonHtml(lessonHtmlText);
 	}
 
-	async function toggleCompletionStatus() {
-		setCompleted(!completed);
+	async function lessonCompletionStateChanged(newCompletionState: boolean) {
+		setCompleted(newCompletionState);
 	}
 
 	return (<div className="Lesson">
@@ -112,7 +112,7 @@ export default function Lesson({}: LessonProps) {
 
 			<div className="complete-assignment">
 				<p>When you've finished reading, mark this lesson as complete to unlock the assignments!</p>
-				<CompletedButton complete={completed} onClick={toggleCompletionStatus} />
+				<CompletedButton complete={completed} type="lesson" contentId={lesson._id} onSuccess={lessonCompletionStateChanged}/>
 			</div>
 			
 			
