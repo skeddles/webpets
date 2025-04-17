@@ -5,6 +5,7 @@ import { useAppState } from '../hooks/AppState';
 
 import RequestButton from '../components/RequestButton';
 import ErrorMessage from '../components/ErrorMessage';
+import Assignments from '../components/Assignments';
 
 import '../css/Lesson.css';
 
@@ -61,7 +62,6 @@ export default function Lesson({}: LessonProps) {
 		}
 	}
 
-
 	async function handleLessonRebuiltSuccess() {
 		if (!lesson || !lessonUrl) throw new Error('Lesson is null');
 		console.log('Lesson rebuilt successfully');
@@ -86,22 +86,26 @@ export default function Lesson({}: LessonProps) {
 
 		{!lesson && <div className="loading">Loading...</div>}
 
-		{lesson && <article>
-			<header>
-				<h1>{lesson.title} <span>{lesson.number}</span></h1>
-				<div className="sub-header">
-					{lesson.level} level
-					{lesson.course}
-				</div>
-				<p>{lesson.description}</p>
-			</header>
+		{lesson && <>
+			<article>
+				<header>
+					<h1>{lesson.title} <span>{lesson.number}</span></h1>
+					<div className="sub-header">
+						{lesson.level} level
+						{lesson.course}
+					</div>
+					<p>{lesson.description}</p>
+				</header>
 
-			<hr />
+				<hr />
 
-			{!lessonHtml && <div className="loading">Loading lesson HTML...</div>}
-			{lessonHtml && <div className="lesson-html" dangerouslySetInnerHTML={{ __html: lessonHtml }} />}
+				{!lessonHtml && <div className="loading">Loading lesson HTML...</div>}
+				{lessonHtml && <div className="lesson-html" dangerouslySetInnerHTML={{ __html: lessonHtml }} />}
+			</article>
 			
-		</article>}
+			<Assignments lessonSlug={lesson.slug} />
+		</>}
+		
 	</div>);
 }
 
