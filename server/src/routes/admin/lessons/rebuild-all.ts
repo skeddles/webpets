@@ -18,7 +18,7 @@ export default createRouter({}, async (_req, res) => {
 	});
 
 	for (const lesson of lessonsThatNeedRebuild) {
-		const {files, html} = await notion.getPageHtml(lesson.pageId);
+		const {files, html} = await notion.getPageHtml(lesson.pageId, 'lessons');
 		await storage.uploadFile(`lessonz/${lesson.pageId}/${lesson.pageId}.htm`, html, false);
 		await downloadAllFiles('lessons/'+lesson.pageId, files);
 	}

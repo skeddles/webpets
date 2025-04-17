@@ -36,16 +36,12 @@ const assignmentSchema = z.object({
 export default async function updateAssignments(slug:string|null = null) {
 	const assignments = await getAssignments();
 
-	const images = [];
-
-	console.log('assignments', assignments);
-
 	if (slug) console.log('updating assignments for /lesson/'+slug);
 	else console.log('updating all assignments');
 
 	for (const assignment of assignments as NotionAssignmentsDatabaseObject[]) {
 		if (slug && assignment.properties.LessonSlug.select?.name !== slug) continue;
-
+		
 		try {
 			const notionId = assignment.id;
 			const name = assignment.properties.Name.title[0]?.text.content || 'No Name';
@@ -55,22 +51,22 @@ export default async function updateAssignments(slug:string|null = null) {
 			const lessonSlug = assignment.properties.LessonSlug.select?.name;
 			const worksheet = assignment.properties.Worksheet.files[0]?.file.url;
 			const worksheetExtension = getFileExtension(assignment.properties.Worksheet.files[0]?.name);
-			const {html, files} = await notion.getPageHtml(notionId);
-
-			console.log('assignment', assignment.id, name, html);
-
+			const uploadFolder = `assignments/${notionId}`;
+			const {html, files} = await notion.getPageHtml(notionId,'assignments');
 			assignmentSchema.parse({name, number, optional, repeatable, lessonSlug, worksheet, worksheetExtension, html, files});
 
 			await upsertAssignment(notionId, lessonSlug, name, number, optional, repeatable, html);
-			images.push({url:worksheet, id:`${notionId}.${worksheetExtension}`});
+
+			const images = [];
+			images.push({url:worksheet, id:`${notionId}.png`});
 			images.push(...files);
+			await downloadAllFiles(uploadFolder, images);
+
 			console.log('assignment upserted:', assignment.id);
 		} catch (error) {
 			console.error('Failed to upsert assignment',assignment.id, error);
 		}
 	}
-
-	await downloadAllFiles(`assignments`, images);
 }
 
 function getFileExtension(path:string) {

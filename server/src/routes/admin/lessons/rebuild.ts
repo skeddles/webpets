@@ -12,7 +12,7 @@ const schema = {
 export default createRouter(schema, async (req, res) => {
 	const { slug } = req.body;
 	const lesson = await getLessonBySlug(slug);
-	const {files, html} = await notion.getPageHtml(lesson.pageId);
+	const {files, html} = await notion.getPageHtml(lesson.pageId, 'lessons');
 
 	await updateAssignments(lesson.slug);
 

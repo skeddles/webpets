@@ -34,7 +34,7 @@ export async function getPageBlocks (blockId:string) { console.log('getting page
 	return blocks;
 }
 
-export async function getPageHtml(pageId:string) {
+export async function getPageHtml(pageId:string, uploadDirectory:string) {
 	const pageBlocks = await getPageBlocks(pageId);
 	
 	let html = '';
@@ -47,7 +47,7 @@ export async function getPageHtml(pageId:string) {
 		else if (!converter[block.type]) 
 			console.warn('No converter for block type "'+ block.type +'"');
 		else {
-			const convertedPageData = await converter[block.type](block,pageId);
+			const convertedPageData = await converter[block.type](block,pageId,uploadDirectory);
 
 			if (currentGroup && convertedPageData.group && convertedPageData.group != currentGroup) 
 				html += `</${currentGroup}><${convertedPageData.group}>`;
@@ -69,8 +69,13 @@ export async function getPageHtml(pageId:string) {
 	return { html, files };
 }
 
+type Converters = Record<string, (block: any, pageId:string, uploadDirectory:string) => Promise<{
+	html: string; 
+	files?: BlockFileData[]; 
+	group?: string 
+}>>;
 
-const converter: Record<string, (block: any,pageId:string) => Promise<{ html: string; files?: BlockFileData[]; group?: string }>> = {
+const converter:Converters = {
 	'paragraph': async (block:any) => {
 		return {
 			html: `<p>${richTextToHtml(block.paragraph.rich_text)}</p>`
@@ -91,10 +96,10 @@ const converter: Record<string, (block: any,pageId:string) => Promise<{ html: st
 			html: `<h3>${richTextToHtml(block.heading_3.rich_text)}</h3>`
 		}
 	},
-	'image': async (block:any,pageId:string) => {
+	'image': async (block:any,pageId:string,uploadDirectory:string) => {
 		return {
 			files: [{id: block.id, url: block.image.file.url}],
-			html: `<figure class="image"><img src="${CDN_PATH+'lessons/'+pageId+'/'+block.id}" alt="${block.image.caption}" /></figure>`
+			html: `<figure class="image"><img src="${CDN_PATH+uploadDirectory+'/'+pageId+'/'+block.id}" alt="${block.image.caption}" /></figure>`
 		}
 	},
 	'callout': async (block:any) => {
