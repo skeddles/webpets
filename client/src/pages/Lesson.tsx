@@ -54,6 +54,7 @@ export default function Lesson({}: LessonProps) {
 				if (!result) throw new Error('Lesson data is null');
 				setLesson(result.lesson);
 				setLessonUrl(result.url);
+				setCompleted(result.completed);
 				console.log('lessonData', lessonData);
 			} else if (!lessonUrl) {
 				console.log('already have lessonData, fetching url');
