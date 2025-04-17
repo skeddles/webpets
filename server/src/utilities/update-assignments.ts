@@ -2,6 +2,7 @@ import { PartialDatabaseObjectResponse } from "@notionhq/client/build/src/api-en
 import { getAssignments } from "./notion";
 import { upsertAssignment } from "../queries/assignments/upsert";
 import downloadAllFiles from "./download-all-files";
+import { z, ZodRawShape } from 'zod';
 
 type NotionAssignmentsDatabaseObject = PartialDatabaseObjectResponse & {
 	id: string;
@@ -15,11 +16,18 @@ type NotionAssignmentsDatabaseObject = PartialDatabaseObjectResponse & {
 	};
 }
 
+const assignmentSchema = z.object({
+	name: z.string().min(3).max(38),
+	number: z.number().min(1).max(10),
+	optional: z.boolean(),
+	repeatable: z.boolean(),
+	lessonSlug: z.string().regex(/^[a-z0-9-]+$/),
+	worksheet: z.string(),
+	worksheetExtension: z.literal('png'),
+});
+
 export default async function updateAssignments(lessonName:string|null = null) {
 	const assignments = await getAssignments();
-
-	console.log('Assignments:', assignments);
-
 
 	for (const assignment of assignments as NotionAssignmentsDatabaseObject[]) {
 		if (lessonName && assignment.properties.LessonSlug.select?.name !== lessonName) continue;
@@ -33,6 +41,8 @@ export default async function updateAssignments(lessonName:string|null = null) {
 			const lessonSlug = assignment.properties.LessonSlug.select?.name;
 			const worksheet = assignment.properties.Worksheet.files[0]?.file.url;
 			const worksheetExtension = getFileExtension(assignment.properties.Worksheet.files[0]?.name);
+
+			assignmentSchema.parse({name, number, optional, repeatable, lessonSlug, worksheet, worksheetExtension});
 
 			await upsertAssignment(notionId, lessonSlug, name, number, optional, repeatable);
 			await downloadAllFiles(`assignments`, [{url:worksheet, id:`${notionId}.${worksheetExtension}`}]);
