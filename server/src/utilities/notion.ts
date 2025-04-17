@@ -34,7 +34,7 @@ export async function getPageBlocks (blockId:string) { console.log('getting page
 	return blocks;
 }
 
-export async function getLessonHtml(pageId:string) {
+export async function getPageHtml(pageId:string) {
 	const pageBlocks = await getPageBlocks(pageId);
 	
 	let html = '';
@@ -138,3 +138,10 @@ function richTextToHtml(richTextArray: RichText[]): string {
 		return text;
 	}).join('');
 }
+
+export default {
+	getLessonList, 
+	getAssignments, 
+	getPageHtml, 
+	getPageBlocks,
+};

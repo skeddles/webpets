@@ -1,5 +1,5 @@
 import { createRouter, is } from '../../../utilities/create-router.js';
-import * as notion from '../../../utilities/notion.js';
+import notion from '../../../utilities/notion.js';
 import * as storage from '../../../utilities/storage.js';
 import { getLessonBySlug } from '../../../queries/lesson/get-by-slug.js';
 import downloadAllFiles from '../../../utilities/download-all-files.js';
@@ -12,7 +12,7 @@ const schema = {
 export default createRouter(schema, async (req, res) => {
 	const { slug } = req.body;
 	const lesson = await getLessonBySlug(slug);
-	const {files, html} = await notion.getLessonHtml(lesson.pageId);
+	const {files, html} = await notion.getPageHtml(lesson.pageId);
 
 	await updateAssignments(lesson.title);
 
