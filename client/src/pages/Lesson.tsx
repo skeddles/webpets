@@ -18,12 +18,14 @@ export default function Lesson({}: LessonProps) {
 	const { state: { user } } = useAppState();
 	const { slug } = useParams();
 	const apiRequest = useApiRequest();
-	const location = useLocation();;
+	const location = useLocation();
 
 	const [lesson, setLesson] = useState<Lesson| null>(location.state?.lesson || null);
 	const [lessonUrl, setLessonUrl] = useState<string | null>(null);
 	const [lessonHtml, setLessonHtml] = useState<string | null>(null);
 	const [adminError, setRebuildError] = useState('');
+
+	const [completed, setCompleted] = useState(false);
 
 	useEffect(() => {
 		if (!slug) return;
@@ -71,6 +73,10 @@ export default function Lesson({}: LessonProps) {
 		setLessonHtml(lessonHtmlText);
 	}
 
+	async function toggleCompletionStatus() {
+		setCompleted(!completed);
+	}
+
 	return (<div className="Lesson">
 		
 		{user.admin && <div className="admin-controls">
@@ -106,7 +112,7 @@ export default function Lesson({}: LessonProps) {
 
 			<div className="complete-assignment">
 				<p>When you've finished reading, mark this lesson as complete to unlock the assignments!</p>
-				<CompletedButton complete={true}/>
+				<CompletedButton complete={completed} onClick={toggleCompletionStatus} />
 			</div>
 			
 			

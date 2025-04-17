@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import '../css/CompletedButton.css';
 
 import Check from '../assets/svg/check.svg?react';
@@ -7,16 +6,12 @@ import Minus from '../assets/svg/minus.svg?react';
 
 interface CompletedButtonProps {
 	complete: boolean;
+	onClick: () => void;
 }
 
-export default function CompletedButton({complete}: CompletedButtonProps) {
-
-	const [tempcheck, setTempCheck] = useState(complete);
-
-	complete = tempcheck;
-
+export default function CompletedButton({complete, onClick}: CompletedButtonProps) {
 	return (<div className="CompletedButton">
-		<button className={complete ? 'completed' : 'incomplete'} onClick={() => {setTempCheck(!tempcheck);}}>
+		<button className={complete ? 'completed' : 'incomplete'} onClick={onClick}>
 			<div className="text">
 				{complete ? 'Completed' : 'Incomplete'}
 			</div>
