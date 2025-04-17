@@ -11,8 +11,9 @@
 		left: 0;
 		width: calc( var(--sidebar-width) + 1em);
 		display: flex;
-		justify-content: space-between;
-		align-items: baseline;
+		justify-content: flex-start;
+		align-items: center;
+		padding-top: 0.5em;
 
 		.page-top-bar {
 			background: var(--bg-inset); 
@@ -72,7 +73,7 @@
 
 @media (max-width: 76em) {
 	.Navigation .header .page-top-bar {
-		height: calc(100% + 1em);
+		height: calc(100% + 0.5em);
 	}
 }
 
