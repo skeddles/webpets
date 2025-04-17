@@ -52,7 +52,7 @@ export default function Assignments({lessonSlug}: AssignmentsProps) {
 		{assignments && assignments.map((assignment) => {
 			return (
 				<div key={assignment._id} className="assignment">
-					<h2>{assignment.name}</h2>
+					<h2>Assignment {assignment.number}: {assignment.name}</h2>
 
 					<div className="worksheet">
 
