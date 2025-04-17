@@ -66,6 +66,8 @@ export default function Assignments({lessonSlug}: AssignmentsProps) {
 
 					<div className="worksheet">
 
+						<h6>Worksheet:</h6>
+
 						<img src={CDN+`/assignments/${assignment.notionId}.png`}/>
 
 						<Button className="download" size="small" onClick={()=> downloadAssignment(i)}>
