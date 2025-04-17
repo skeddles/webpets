@@ -31,6 +31,7 @@ export const Completions = database.collection("completions");
 
 await Users.createIndex({ "username": 1 },{ name:"username_lowercase_index", unique: true, collation: {locale: 'en',strength: 2}});
 await Lessons.createIndex({ "slug": 1 }, { name:"slug_lowercase_index", unique: true });
+await Completions.createIndex({ "userId": 1, "type": 1 }, { name:"userId_type_index" });
 await Completions.createIndex({ "userId": 1, "contentId": 1, "type": 1 }, { name:"userId_contentId_type_index" });
 
 export default database;
