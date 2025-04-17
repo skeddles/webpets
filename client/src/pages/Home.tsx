@@ -7,7 +7,7 @@ import '../css/Home.css';
 
 
 export default function Home() {
-	const { state: { user, lessons}, dispatchState } = useAppState();
+	const { state: { user, lessons, completedLessons}, dispatchState } = useAppState();
 	const apiRequest = useApiRequest();
 
 	console.log('rendering Home');
@@ -51,9 +51,10 @@ export default function Home() {
 							className="lesson" 
 							to={'/lesson/'+lesson.slug} 
 							key={lesson.slug} 
-							state={{ lesson }}
+							state={{ lesson, completed: completedLessons?.includes(lesson._id) }}
 							>
 								<div>{lesson.title}</div>
+								<p>{completedLessons?.includes(lesson._id) ? 'Completed' : 'Not Completed'}</p>
 
 						</Link>
 				))}

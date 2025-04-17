@@ -25,7 +25,7 @@ export default function Lesson({}: LessonProps) {
 	const [lessonHtml, setLessonHtml] = useState<string | null>(null);
 	const [adminError, setRebuildError] = useState('');
 
-	const [completed, setCompleted] = useState(false);
+	const [completed, setCompleted] = useState(location.state?.completed || false);
 
 	useEffect(() => {
 		if (!slug) return;
