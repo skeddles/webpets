@@ -19,11 +19,8 @@
 			border: none;
 			color: var(--text);
 
-			cursor: pointer;
-
 			padding: 0.5em 1em;
 			border-radius: 0.5em;
-			
 
 			&:hover {
 				background-color: var(--secondary);

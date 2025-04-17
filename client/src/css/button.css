@@ -20,7 +20,6 @@
 		position: relative;
 
 		&:not([aria-disabled="true"]) {		
-			cursor: pointer;
 			top: -0.25em;
 			box-shadow: 
 				0 0.25em 0 var(--button-side), /* 3d bottom edge */ 
