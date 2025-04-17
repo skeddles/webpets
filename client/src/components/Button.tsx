@@ -6,9 +6,11 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     children: React.ReactNode;
 	disabled?: boolean;
 	ref?: React.RefObject<HTMLButtonElement | null>;
+	secondary?: true;
+	size?: 'small' | null;
 }
 
-export default function Button({children, disabled, ref, ...rest}: ButtonProps) {
+export default function Button({children, disabled, ref, secondary, size, ...rest}: ButtonProps) {
     const buttonRef = useRef<HTMLButtonElement>(null);
 	const [shake, setShake] = useState(false);
 
@@ -22,7 +24,11 @@ export default function Button({children, disabled, ref, ...rest}: ButtonProps) 
 		if (rest.onClick) rest.onClick(e);
 	}
 
-    return (<div className="Button">
+	let className = 'Button';
+	if (secondary) className += ' secondary';
+	if (size) className += ' ' + size;
+
+    return (<div className={className}>
         <button
             {...rest}
             ref={ref || buttonRef}

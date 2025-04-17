@@ -10,11 +10,21 @@
 
 		.worksheet {
 			margin-right: 1em;
+			display: flex;
+			flex-direction: column;
+
 			img {
 				background: var(--bg-inset);
 				border-radius: 0.5em;
 				padding: 1em;
 				
+			}
+
+			button {
+				margin-top: 1em;
+				svg {
+					margin-left: 0.5em;
+				}
 			}
 		}
 

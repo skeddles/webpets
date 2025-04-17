@@ -1,4 +1,7 @@
 .Button {
+
+	&.small button {font-size: 0.8rem;}
+
 	button {
 		/*variables*/
 		--button-side: color-mix(in oklch, var(--primary), var(--primary-dark) 50%);
