@@ -2,7 +2,8 @@
 	width: calc( var(--sidebar-width) + 1em);
 	overflow: hidden;
 	transition: width 100ms ease-in-out;
-
+	z-index:10;
+	user-select: none;
 
 	.user-button {
 		position: fixed;
@@ -49,6 +50,6 @@
 		right: 0;
 		bottom: 0;
 
-		background: color-mix(in oklch, var(--bg), black 20%);
+		background: var(--bg-inset);
 	}
 } 

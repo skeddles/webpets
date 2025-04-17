@@ -12,6 +12,8 @@ export default function Navigation() {
 
 
 		<div className="header">
+			<div className="page-top-bar"></div>
+
 			<h1>Pixel School</h1>
 
 			<button className="menu-button" onClick={() => setOpen(!open)}>
