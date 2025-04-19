@@ -9,9 +9,11 @@ const CDN = import.meta.env.VITE_DO_SPACES_CDN_PATH;
 interface AssignmentProps {
 	assignment: Assignment;
 	lessonSlug: string;
+	completed: boolean;
+	setCompletedAssignments: any;
 }
 
-export default function Assignment({assignment, lessonSlug}: AssignmentProps) {
+export default function Assignment({assignment, lessonSlug, completed, setCompletedAssignments}: AssignmentProps) {
 
 
 	const assignment_file_url = CDN + '/assignments/' + assignment.notionId + '.png';
@@ -38,6 +40,15 @@ export default function Assignment({assignment, lessonSlug}: AssignmentProps) {
 		}
 	}
 
+	function completedStateChanged(newCompletionState: boolean) {
+		console.log('Assignment completed state changed:', newCompletionState);
+
+		setCompletedAssignments((prevState: string[]) => {
+			if (newCompletionState) return [...prevState, assignment._id];
+			return prevState.filter((id: string) => id !== assignment._id);
+		});
+	}
+
 	return (
 		<div className="Assignment">
 			<h2>Assignment {assignment.number}: {assignment.name}</h2>
@@ -55,7 +66,7 @@ export default function Assignment({assignment, lessonSlug}: AssignmentProps) {
 
 			<div className="complete-assignment">
 				<p>When you've finished the assignment, mark it as complete!</p>
-				<CompletedButton complete={false} type="assignment" contentId={assignment._id} onSuccess={() => {}}/>
+				<CompletedButton complete={completed} type="assignment" contentId={assignment._id} onSuccess={completedStateChanged}/>
 			</div>
 		</div>
 	);

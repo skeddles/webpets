@@ -14,12 +14,15 @@ export default function Assignments({lessonSlug}: AssignmentsProps) {
 	const loadingState = useRef('unloaded');
 	const AssignmentsRef = useRef<HTMLDivElement>(null);
 	const [assignments, setAssignments] = useState<Assignment[] | null>(null);
+	const [completedAssignments, setCompletedAssignments] = useState<string[] | null>(null);
 
 	async function loadAssignments() {
 		try {
 			const result = await apiRequest('assignments/lesson', { slug: lessonSlug });
 			if (!result) throw new Error('Assignments data is null');
 			setAssignments(result.assignments);
+			setCompletedAssignments(result.completedAssignments);
+			console.log('Assignments result', result);
 			loadingState.current = 'loaded';
 		}
 		catch (error) {
@@ -47,7 +50,14 @@ export default function Assignments({lessonSlug}: AssignmentsProps) {
 
 	return (<div className="Assignments" ref={AssignmentsRef}>
 		<h1>Assignments</h1>
-		{assignments && assignments.map((assignment) => <Assignment key={assignment._id} assignment={assignment} lessonSlug={lessonSlug} />)}
+		{assignments && assignments.map((assignment) => 
+			<Assignment 
+				key={assignment._id} 
+				assignment={assignment} 
+				completed={completedAssignments?.includes(assignment._id) || false}
+				setCompletedAssignments={setCompletedAssignments}
+				lessonSlug={lessonSlug} 
+			/>)}
 		{!assignments && <p>Loading...</p>}
 	</div>);
 }
