@@ -22,9 +22,16 @@ function getListOfCompletedAssignments(allCompletedAssignments:Completion[], ass
 	if (!assignments || !allCompletedAssignments) return completedAssignments;
 
 	for (const assignmentCompletion of allCompletedAssignments) {
-		const assignmentIsInThisLesson = assignments.find((a) => a._id.toString() === assignmentCompletion.contentId.toString());
-		if (assignmentIsInThisLesson) 
-			completedAssignments.push(assignmentCompletion.contentId.toString());
+		const completedAssignmentContentId = assignmentCompletion.contentId.toString();
+		const assignmentIsInThisLesson = assignments.find((a) => a._id.toString() === completedAssignmentContentId);
+		
+		if (!assignmentIsInThisLesson) continue;
+		if (completedAssignments.includes(completedAssignmentContentId)) {
+			console.warn('Duplicate completed assignment found:', completedAssignmentContentId);
+			continue;
+		}
+
+		completedAssignments.push(completedAssignmentContentId);
 	}
 
 	return completedAssignments;
