@@ -8,12 +8,11 @@ import '../css/RightSidebar.css';
 import ShoppingCartIcon from '../assets/svg/cart-shopping.svg?react';
 
 export default function RightSidebar() {
-	const { state: { user } } = useAppState();
-
-
+	const { state: { user, shoppingCart } } = useAppState();
 	const [openPanel, setOpenPanel] = useState('');
 
 	const sideBarIsOpenClass = openPanel ? " open" : "";
+	const itemsInCart = shoppingCart.reduce((total, item) => total + item.quantity, 0);
 
 	function togglePanel(panelName:string) {
 		if (openPanel === panelName) 
@@ -26,10 +25,12 @@ export default function RightSidebar() {
 
 		<div className="controls">
 
-			<button className="shopping-cart" onClick={()=>togglePanel('cart')}>
-				<ShoppingCartIcon />
-				<div className="cart-items">3</div>
-			</button>
+			{itemsInCart > 0 && 
+				<button className="shopping-cart" onClick={()=>togglePanel('cart')}>
+					<ShoppingCartIcon />
+					<div className="cart-items">{itemsInCart}</div>
+				</button>
+			}
 
 			<button onClick={()=>togglePanel('account')}>
 				{user.username}
