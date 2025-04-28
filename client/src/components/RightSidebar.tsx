@@ -3,15 +3,21 @@ import { useAppState } from '../hooks/AppState';
 
 import ThemeSelector from './ThemeSelector';
 
-import '../css/Account.css';
+import '../css/RightSidebar.css';
+import ShoppingCartIcon from '../assets/svg/cart-shopping.svg?react';
 
-export default function Account() {
+export default function RightSidebar() {
 	const { state: { user } } = useAppState();
 	const [open, setOpen] = useState(false);
 
-	return (<div className={"Account" + (open ? " open" : "")}>
+	return (<div className={"RightSidebar" + (open ? " open" : "")}>
 
 		<div className="user-button">
+
+			<button className="shopping-cart">
+				<ShoppingCartIcon />
+				<div className="cart-items">3</div>
+			</button>
 
 			<button onClick={() => setOpen(!open)}>
 				{user.username}

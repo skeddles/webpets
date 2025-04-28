@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router';
 
 import Navigation from './components/Navigation';
-import Account from './components/Account';
+import RightSidebar from './components/RightSidebar';
 
 import './css/App.css';
 
@@ -9,7 +9,7 @@ const Layout = () => {
 	return (<div className="App">
 		<Navigation />
 		<div className="tab"><Outlet /></div>
-		<Account />
+		<RightSidebar />
 	</div>);
 };
 

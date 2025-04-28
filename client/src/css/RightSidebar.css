@@ -1,4 +1,4 @@
-.Account {
+.RightSidebar {
 	width: var(--sidebar-width);
 	overflow: hidden;
 	transition: width 100ms ease-in-out;
