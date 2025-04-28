@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useAppState } from '../hooks/AppState';
 
-import ThemeSelector from './ThemeSelector';
+import AccountPanel from './AccountPanel';
 
 import '../css/RightSidebar.css';
 import ShoppingCartIcon from '../assets/svg/cart-shopping.svg?react';
+
+
 
 export default function RightSidebar() {
 	const { state: { user } } = useAppState();
@@ -29,13 +31,6 @@ export default function RightSidebar() {
 			</button>
 		</div>
 
-		<div className="content">
-
-			<div>({user.admin && <span className="admin">Admin</span>})</div>
-			
-			<ThemeSelector />
-
-		</div>
-
+		<AccountPanel />
 	</div>);
 }
