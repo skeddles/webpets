@@ -2,35 +2,42 @@ import { useState } from 'react';
 import { useAppState } from '../hooks/AppState';
 
 import AccountPanel from './AccountPanel';
+import ShoppingCartPanel from './ShoppingCartPanel';
 
 import '../css/RightSidebar.css';
 import ShoppingCartIcon from '../assets/svg/cart-shopping.svg?react';
-
-
 
 export default function RightSidebar() {
 	const { state: { user } } = useAppState();
 
 
-	const [accountPanelOpen, setAccountPanelOpen] = useState(false);
-	const [shoppingCartPanelOpen, setShoppingCartPanelOpen] = useState(false);
+	const [openPanel, setOpenPanel] = useState('');
 
-	const sideBarIsOpen = accountPanelOpen || shoppingCartPanelOpen;
+	const sideBarIsOpenClass = openPanel ? " open" : "";
 
-	return (<div className={"RightSidebar" + (sideBarIsOpen ? " open" : "")}>
+	function togglePanel(panelName:string) {
+		if (openPanel === panelName) 
+			setOpenPanel('');
+		else 
+			setOpenPanel(panelName);
+	}
+
+	return (<div className={"RightSidebar" + sideBarIsOpenClass}>
 
 		<div className="user-button">
 
-			<button className="shopping-cart" onClick={() => setShoppingCartPanelOpen(!shoppingCartPanelOpen)}>
+			<button className="shopping-cart" onClick={()=>togglePanel('cart')}>
 				<ShoppingCartIcon />
 				<div className="cart-items">3</div>
 			</button>
 
-			<button onClick={() => setAccountPanelOpen(!accountPanelOpen)}>
-				{user.username}
+			<button onClick={()=>togglePanel('account')}>
+				{/* {user.username} */}
+				p:'{openPanel}'
 			</button>
 		</div>
 
-		<AccountPanel />
+		<AccountPanel open={openPanel=='account'}/>
+		<ShoppingCartPanel open={openPanel=='cart'}/>
 	</div>);
 }

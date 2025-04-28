@@ -41,6 +41,15 @@
 		width: var(--sidebar-width);
 		padding: 1em;
 		box-sizing: border-box;
+		opacity: 0;
+		transition: opacity 100ms ease-in-out;
+		position: absolute;
+		top: 0;
+		left: 0;
+
+		&.open {
+			opacity: 1;
+		}
 	}
 
 	&:not(.open) {
