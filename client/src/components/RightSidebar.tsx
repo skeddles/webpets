@@ -24,7 +24,7 @@ export default function RightSidebar() {
 
 	return (<div className={"RightSidebar" + sideBarIsOpenClass}>
 
-		<div className="user-button">
+		<div className="controls">
 
 			<button className="shopping-cart" onClick={()=>togglePanel('cart')}>
 				<ShoppingCartIcon />
@@ -32,8 +32,7 @@ export default function RightSidebar() {
 			</button>
 
 			<button onClick={()=>togglePanel('account')}>
-				{/* {user.username} */}
-				p:'{openPanel}'
+				{user.username}
 			</button>
 		</div>
 
