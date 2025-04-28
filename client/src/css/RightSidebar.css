@@ -17,9 +17,27 @@
 		width: var(--sidebar-width);
 		display: flex;
 		justify-content: flex-end;
+		padding: 0.5em;
+
+		.shopping-cart {
+			position: relative;
+
+			.cart-items {
+				position: absolute;
+				top: 0.25em;
+				right: 0.25em;
+				font-size: 0.7em;
+				background: var(--red);
+				color: white;
+				width: 1.2em;
+				height: 1.2em;
+				border-radius: 25%;
+				border: 2px solid var(--bg);
+			}
+		}
 
 		button {
-			margin: 1em;
+			margin: 0.5em;
 			font-size: 1.1em;
 			background: transparent;
 			border: none;
@@ -27,6 +45,14 @@
 
 			padding: 0.5em 1em;
 			border-radius: 0.5em;
+
+			svg {
+				width: 1.5em;
+				height: 1.5em;
+				path {
+					fill: var(--text);
+				}
+			}
 
 			&:hover {
 				background-color: var(--secondary);

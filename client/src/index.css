@@ -48,6 +48,8 @@
 	--green-light: #e9ff7b;
 	--green-dark: #235413;
 
+	--red: #ff624d;
+
 	/* im sorry. css media queries still dont support using variables, 
 	so if you change these values, also change the calculated variables in 
 	the .Account, .Navigation media queries */
