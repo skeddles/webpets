@@ -5,6 +5,7 @@ type AppState = {
 	token: string | null;
 	lessons: Lesson[] | null;
 	completedLessons: string[] | null;
+	shoppingCart: ProductInCart[];
 };
 
 type SetUserAction = {type: 'SET_USER'; user: User};
@@ -24,7 +25,8 @@ type UseStateReturnType = {
 		user: User, 
 		token: string, 
 		lessons: Lesson[] | null,
-		completedLessons: string[] | null
+		completedLessons: string[] | null,
+		shoppingCart: ProductInCart[],
 	};
 	dispatchState: (action: Action) => void, 
 }
@@ -38,6 +40,8 @@ const stateReducer = (state: AppState, action: Action): AppState => {
 		return { ...state, token: action.token };
 	if (action.type === 'SET_LESSONS')
 		return { ...state, lessons: action.lessons, completedLessons: action.completedLessons };
+
+		
 	throw new Error(`Unhandled action type: ${(action as Action).type}`);
 };
 
@@ -45,7 +49,14 @@ const initialState: AppState = {
 	user: 'loading',
 	token: null,
 	lessons: null,
-	completedLessons: null
+	completedLessons: null,
+	shoppingCart: [
+		{
+			id: 'prod_SA1vPmke6NsfWq',
+			price: 3000,
+			quantity: 1,
+		}
+	],
 };
 
 export const AppStateContext = createContext<StateContext>({
