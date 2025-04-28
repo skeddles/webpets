@@ -8,18 +8,23 @@ import ShoppingCartIcon from '../assets/svg/cart-shopping.svg?react';
 
 export default function RightSidebar() {
 	const { state: { user } } = useAppState();
-	const [open, setOpen] = useState(false);
 
-	return (<div className={"RightSidebar" + (open ? " open" : "")}>
+
+	const [accountPanelOpen, setAccountPanelOpen] = useState(false);
+	const [shoppingCartPanelOpen, setShoppingCartPanelOpen] = useState(false);
+
+	const sideBarIsOpen = accountPanelOpen || shoppingCartPanelOpen;
+
+	return (<div className={"RightSidebar" + (sideBarIsOpen ? " open" : "")}>
 
 		<div className="user-button">
 
-			<button className="shopping-cart">
+			<button className="shopping-cart" onClick={() => setShoppingCartPanelOpen(!shoppingCartPanelOpen)}>
 				<ShoppingCartIcon />
 				<div className="cart-items">3</div>
 			</button>
 
-			<button onClick={() => setOpen(!open)}>
+			<button onClick={() => setAccountPanelOpen(!accountPanelOpen)}>
 				{user.username}
 			</button>
 		</div>
