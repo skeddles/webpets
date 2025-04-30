@@ -7,4 +7,5 @@ type Lesson = {
 	pageId: string;
 	slug: string;
 	course: string;
+	priceId: string;
 }

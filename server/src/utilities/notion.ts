@@ -1,4 +1,5 @@
 import { Client } from '@notionhq/client';
+import type { NotionLessonPage } from '../types/NotionLessonPage.js';
 
 const API_KEY = process.env.NOTION_API_KEY || (() => { throw new Error("NOTION_API_KEY is not defined in environment variables"); })();
 const ARTICLES_DATABASE_ID = process.env.NOTION_ARTICLES_DATABASE_ID || (() => { throw new Error("NOTION_ARTICLES_DATABASE_ID is not defined in environment variables"); })();
@@ -12,7 +13,7 @@ const notion = new Client({auth: API_KEY});
 
 export async function getLessonList() { 
 	const pages = await notion.databases.query({ database_id: ARTICLES_DATABASE_ID });
-	return pages.results;
+	return pages.results as NotionLessonPage[];
 }
 
 export async function getAssignments() {
