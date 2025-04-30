@@ -13,6 +13,7 @@ import Unauthenticated from './pages/Unauthenticated';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Checkout from './pages/Checkout';
 import Admin from './pages/Admin';
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
 						<Route path="/test2" element={<Article />} />
 						<Route path="/lesson/:slug" element={<Lesson />} />
 						<Route path="/admin" element={<Admin />} />
+						<Route path="/checkout" element={<Checkout />} />
 						<Route path="*" element={<Home />} />
 					</Route>
 				</Routes>

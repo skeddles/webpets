@@ -18,7 +18,7 @@ export default createRouter(schema, async (req, res) => {
 	const { shoppingCart } = req.body;
 	const lineItems:LineItem[] = await convertShoppingCartToLineItems(shoppingCart);
 	const session = await createCheckoutSession(lineItems);
-	res.status(200).json({ session });
+	res.status(200).json({ clientSecret: session.client_secret });
 });
 
 async function convertShoppingCartToLineItems(shoppingCart: ProductInCart[]) {

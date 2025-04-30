@@ -1,19 +1,16 @@
-import { useState } from 'react';
 import { useAppState } from '../hooks/AppState';
-
-import RequestButton from './RequestButton';
-import ErrorMessage from './ErrorMessage';
-
 import '../css/ShoppingCartPanel.css';
 import ChevronRightIcon from '../assets/svg/chevron-right.svg?react';
+import Button from './Button';
+import { useNavigate } from 'react-router';
 
 interface CartProps {
 	open: boolean;
 }
 
 export default function ShoppingCartPanel({open}: CartProps) {
-	const { state: { shoppingCart }, dispatchState } = useAppState();
-	const [checkoutErrorMessage, setCheckoutErrorMessage] = useState('');
+	const { state: { shoppingCart } } = useAppState();
+	const navigate = useNavigate();
 
 	let contentClass = "content";
 	if (open) contentClass += " open";
@@ -37,21 +34,11 @@ export default function ShoppingCartPanel({open}: CartProps) {
 					</div>
 				))}
 			
-				<RequestButton
-					text="Checkout"
-					icon={<ChevronRightIcon />}
-					apiPath="shop/checkout"
-					requestBody={{ shoppingCart }}
-					onSuccess={(data) => {
-						console.log('Checkout success:', data);
-					}}
-					setErrorMessage={setCheckoutErrorMessage}
-				/>
-				<ErrorMessage message={checkoutErrorMessage} />
+				<Button onClick={() => navigate('/checkout')}>
+					Checkout <ChevronRightIcon />
+				</Button>
+
 			</>}
-
-
-
 		</div>
 	</div>);
 }

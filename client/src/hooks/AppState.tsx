@@ -52,7 +52,7 @@ const initialState: AppState = {
 	completedLessons: null,
 	shoppingCart: [
 		{
-			id: '681276c39d0fcac4c158e6f4',
+			id: '68129d14aa680c4fc357ac3b',
 			type: 'lesson',
 			price: 499,
 		}
