@@ -12,7 +12,9 @@ interface AdminProps {
 }
 
 export default function Admin({}: AdminProps) {
-	const { state: { user } } = useAppState();
+	const { state } = useAppState();
+	const user = state.user;
+
 	const navigate = useNavigate();
 	const [rebuildError, setRebuildError] = useState('');
 
@@ -35,6 +37,10 @@ export default function Admin({}: AdminProps) {
 			setErrorMessage={setRebuildError}
 			/>
 		<ErrorMessage message={rebuildError} />
+
+		<h2>Current App State</h2>
+		<pre>{JSON.stringify(state, null, 2)}</pre>
+
 
 	</div>);
 }
