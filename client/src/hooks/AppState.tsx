@@ -52,9 +52,9 @@ const initialState: AppState = {
 	completedLessons: null,
 	shoppingCart: [
 		{
-			id: 'prod_SA1vPmke6NsfWq',
-			price: 3000,
-			quantity: 1,
+			id: '681276c39d0fcac4c158e6f4',
+			type: 'lesson',
+			price: 499,
 		}
 	],
 };

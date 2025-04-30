@@ -12,7 +12,6 @@ export default function RightSidebar() {
 	const [openPanel, setOpenPanel] = useState('');
 
 	const sideBarIsOpenClass = openPanel ? " open" : "";
-	const itemsInCart = shoppingCart.reduce((total, item) => total + item.quantity, 0);
 
 	function togglePanel(panelName:string) {
 		if (openPanel === panelName) 
@@ -25,10 +24,10 @@ export default function RightSidebar() {
 
 		<div className="controls">
 
-			{itemsInCart > 0 && 
+			{shoppingCart.length > 0 && 
 				<button className="shopping-cart" onClick={()=>togglePanel('cart')}>
 					<ShoppingCartIcon />
-					<div className="cart-items">{itemsInCart}</div>
+					<div className="cart-items">{shoppingCart.length}</div>
 				</button>
 			}
 
