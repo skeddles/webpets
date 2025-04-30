@@ -30,7 +30,7 @@ export default function Admin({}: AdminProps) {
 		<RequestButton 
 			text="Rebuild Lessons"
 			apiPath="admin/lessons/rebuild-all"
-			onSuccess={() => alert('Lessons rebuilt successfully')}
+			onSuccess={({message}) => alert(message)}
 			onError={(data) => console.error('Error rebuilding lessons:', data)}
 			setErrorMessage={setRebuildError}
 			/>

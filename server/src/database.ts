@@ -24,13 +24,20 @@ export function id (id:IdOrString) {
 	else return id as ObjectId;
 }
 
+// Users
 export const Users = database.collection("users");
-export const Lessons = database.collection("lessons");
-export const Assignments = database.collection("assignments");
-export const Completions = database.collection("completions");
-
 await Users.createIndex({ "username": 1 },{ name:"username_lowercase_index", unique: true, collation: {locale: 'en',strength: 2}});
+
+// Lessons
+export const Lessons = database.collection("lessons");
 await Lessons.createIndex({ "slug": 1 }, { name:"slug_lowercase_index", unique: true });
+await Lessons.createIndex({ "pageId": 1 }, { name:"pageId_lowercase_index", unique: true });
+
+// Assignments
+export const Assignments = database.collection("assignments");
+
+// Completions
+export const Completions = database.collection("completions");
 await Completions.createIndex({ "userId": 1, "type": 1 }, { name:"userId_type_index" });
 await Completions.createIndex({ "userId": 1, "contentId": 1, "type": 1 }, { name:"userId_contentId_type_index" });
 
