@@ -3,12 +3,12 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import routes from './routes';
 import authentication from './authentication';
+import stripeWebhook from './utilities/stripe/webhook';
 
 
 const app = express();
 
 app.use(cors());
-app.use(express.json());
 
 app.use((req, res, next) => {
 	req.timestamp = Date.now();
@@ -18,6 +18,9 @@ app.use((req, res, next) => {
 	});
 	next();
 });
+
+app.use(stripeWebhook);
+app.use(express.json());
 
 app.use(authentication);
 app.use(routes);

@@ -9,6 +9,7 @@ const __dirname = dirname(__filename);
 const routesDir = join(__dirname, 'routes'); 
 
 let routeTree = '';
+
 await loadRoutes();
 
 async function loadRoutes(dir = routesDir, basePath = '') {
