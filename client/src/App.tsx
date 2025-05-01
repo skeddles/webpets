@@ -14,6 +14,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Checkout from './pages/Checkout';
+import CheckoutComplete from './pages/CheckoutComplete';
 import Admin from './pages/Admin';
 
 import './css/App.css';
@@ -52,6 +53,7 @@ function App() {
 						<Route path="/lesson/:slug" element={<Lesson />} />
 						<Route path="/admin" element={<Admin />} />
 						<Route path="/checkout" element={<Checkout />} />
+						<Route path="/checkout-complete" element={<CheckoutComplete />} />
 						<Route path="*" element={<Home />} />
 					</Route>
 				</Routes>
