@@ -7,7 +7,7 @@ import RightChevronIcon from '../assets/svg/chevron-right.svg?react';
 interface LoadingButtonProps {
 	text: string;
 	loading: boolean;
-	onClick: () => void;
+	onClick?: () => void;
 	disabled?: boolean;
 	sparkle?: boolean;
 	icon?: JSX.Element;
