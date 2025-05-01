@@ -3,8 +3,6 @@ import { Outlet } from 'react-router';
 import Navigation from './components/Navigation';
 import RightSidebar from './components/RightSidebar';
 
-import './css/App.css';
-
 const Layout = () => {
 	return (<div className="App">
 		<Navigation />

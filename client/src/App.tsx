@@ -16,6 +16,8 @@ import Register from './pages/Register';
 import Checkout from './pages/Checkout';
 import Admin from './pages/Admin';
 
+import './css/App.css';
+
 function App() {
 	const { state: { user } } = useContext(AppStateContext);
     
