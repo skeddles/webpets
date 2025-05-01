@@ -3,6 +3,7 @@ import { PaymentElement, AddressElement, useCheckout } from '@stripe/react-strip
 
 import { EmailInput, validateEmail } from './EmailInput';
 
+
 interface ValidateEmailResult {
 	isValid: boolean;
 	message: string | null;

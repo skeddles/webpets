@@ -1,4 +1,7 @@
+import { useState } from 'react';
 import { useCheckout } from '@stripe/react-stripe-js';
+
+import ErrorMessage from './ErrorMessage';
 
 interface EmailInputProps {
 	email: string;
@@ -13,7 +16,9 @@ export function EmailInput ({ email, setEmail, error, setError }:EmailInputProps
 	const handleBlur = async () => {
 		if (!email) return;
 		const { isValid, message } = await validateEmail(email, checkout);
-		if (!isValid) setError(message);
+		if (!isValid) {
+			setError(message);
+		}
 	};
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +38,7 @@ export function EmailInput ({ email, setEmail, error, setError }:EmailInputProps
 					placeholder="you@example.com"
 				/>
 			</label>
-			{error && <div id="email-errors">{error}</div>}
+			<ErrorMessage message={error} />
 	</>);
 };
 
