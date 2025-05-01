@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useCheckout } from '@stripe/react-stripe-js';
 
 import ErrorMessage from './ErrorMessage';
@@ -27,17 +26,17 @@ export function EmailInput ({ email, setEmail, error, setError }:EmailInputProps
 	};
 
 	return (<>
-			<label>
-				Email
-				<input
-					id="email"
-					type="text"
-					value={email}
-					onChange={handleChange}
-					onBlur={handleBlur}
-					placeholder="you@example.com"
-				/>
-			</label>
+			<h4>Email</h4>
+
+			<input
+				id="email"
+				type="text"
+				value={email}
+				onChange={handleChange}
+				onBlur={handleBlur}
+				placeholder="you@example.com"
+			/>
+
 			<ErrorMessage message={error} />
 	</>);
 };
