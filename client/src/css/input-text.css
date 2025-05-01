@@ -1,11 +1,11 @@
 input[type="text"], input[type="password"] {
-	background-color: color-mix(in srgb, var(--bg), black 50%);
+	background-color: var(--bg-inset);
 	color: var(--text);
 	font-size: 1rem;
 	padding: 0.5em 1em;
 	border: none;
 	border-radius: 0.4em;
-	border-top: 0.125em solid color-mix(in srgb, var(--bg), black 80%);
+	border-top: 0.125em solid var(--bg-inset-edge);
 	margin: 0.5em 0;
 
 	&:active, &:focus {

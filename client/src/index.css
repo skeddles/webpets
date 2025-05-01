@@ -13,6 +13,7 @@
 	&[data-theme='dark'] {
 		--bg: #171730;
 		--bg-inset: color-mix(in oklch, var(--bg), black 25%);
+		--bg-inset-edge: color-mix(in oklch, var(--bg), black 80%);
 		--text: #bccdfc;
 		--text-weak: color-mix(in oklch, var(--text), var(--bg) 50%);
 		--bg-shadow: #000000;
@@ -49,6 +50,7 @@
 	--green-dark: #235413;
 
 	--red: #ff624d;
+
 
 	/* im sorry. css media queries still dont support using variables, 
 	so if you change these values, also change the calculated variables in 
