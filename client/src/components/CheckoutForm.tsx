@@ -3,6 +3,7 @@ import { PaymentElement, AddressElement, useCheckout } from '@stripe/react-strip
 
 import { EmailInput, validateEmail } from './EmailInput';
 
+import '../css/CheckoutForm.css';
 
 interface ValidateEmailResult {
 	isValid: boolean;
@@ -38,8 +39,8 @@ export default function CheckoutForm () {
 		setIsLoading(false);
 	};
 
-	return (<>
-		<p>Enter your email and billing address to proceed with the payment. Your payment will be processed securely by Stripe. Your billing information and billing information will be used only for payment processing by Stripe and will not be stored by Pixel School or associated with your Pixel School account.</p>
+	return (<div className="CheckoutForm">
+		<p className="info">Enter your email and billing address to proceed with the payment. Your payment will be processed securely by Stripe. Your billing information and billing information will be used only for payment processing by Stripe and will not be stored by Pixel School or associated with your Pixel School account.</p>
 		<form id="payment-form" onSubmit={handleSubmit}>
 			<EmailInput
 				email={email}
@@ -67,7 +68,7 @@ export default function CheckoutForm () {
 			{/* Show any error or success messages */}
 			{message && <div id="payment-message">{message}</div>}
 		</form>
-	</>);
+	</div>);
 }
 
 
