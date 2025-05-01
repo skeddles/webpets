@@ -2,6 +2,7 @@ import { useState } from "react";
 import { PaymentElement, AddressElement, useCheckout } from '@stripe/react-stripe-js';
 
 import { EmailInput, validateEmail } from './EmailInput';
+import ErrorMessage from "./ErrorMessage";
 
 import '../css/CheckoutForm.css';
 
@@ -15,7 +16,7 @@ export default function CheckoutForm () {
 
 	const [email, setEmail] = useState('');
 	const [emailError, setEmailError] = useState<string | null>(null);
-	const [message, setMessage] = useState<string | null>(null);
+	const [error, setError] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState(false);
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -26,7 +27,7 @@ export default function CheckoutForm () {
 		const { isValid, message }: ValidateEmailResult = await validateEmail(email, checkout);
 		if (!isValid) {
 			setEmailError(message);
-			setMessage(message);
+			setError(message);
 			setIsLoading(false);
 			return;
 		}
@@ -34,7 +35,7 @@ export default function CheckoutForm () {
 		const result = await checkout.confirm();
 
 		if (result.type == 'error') 
-			setMessage(result.error.message);
+			setError(result.error.message);
 		
 		setIsLoading(false);
 	};
@@ -65,8 +66,7 @@ export default function CheckoutForm () {
 				</span>
 			</button>
 
-			{/* Show any error or success messages */}
-			{message && <div id="payment-message">{message}</div>}
+			<ErrorMessage message={error} />
 		</form>
 	</div>);
 }
