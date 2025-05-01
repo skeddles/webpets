@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { PaymentElement, AddressElement, useCheckout } from '@stripe/react-stripe-js';
 
+import { EmailInput, validateEmail } from './EmailInput';
 
 interface ValidateEmailResult {
 	isValid: boolean;
@@ -36,7 +37,8 @@ export default function CheckoutForm () {
 		setIsLoading(false);
 	};
 
-	return (
+	return (<>
+		<p>Enter your email and billing address to proceed with the payment. Your payment will be processed securely by Stripe. Your billing information and billing information will be used only for payment processing by Stripe and will not be stored by Pixel School or associated with your Pixel School account.</p>
 		<form id="payment-form" onSubmit={handleSubmit}>
 			<EmailInput
 				email={email}
@@ -60,54 +62,11 @@ export default function CheckoutForm () {
 					)}
 				</span>
 			</button>
-			
+
 			{/* Show any error or success messages */}
 			{message && <div id="payment-message">{message}</div>}
 		</form>
-	);
-}
-
-
-interface EmailInputProps {
-	email: string;
-	setEmail: (email: string) => void;
-	error: string | null;
-	setError: (error: string | null) => void;
-}
-
-const EmailInput = ({ email, setEmail, error, setError }:EmailInputProps) => {
-	const checkout = useCheckout();
-
-	const handleBlur = async () => {
-		if (!email) return;
-		const { isValid, message } = await validateEmail(email, checkout);
-		if (!isValid) setError(message);
-	};
-
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setError(null);
-		setEmail(e.target.value);
-	};
-
-	return (<>
-			<label>
-				Email
-				<input
-					id="email"
-					type="text"
-					value={email}
-					onChange={handleChange}
-					onBlur={handleBlur}
-					placeholder="you@example.com"
-				/>
-			</label>
-			{error && <div id="email-errors">{error}</div>}
 	</>);
-};
-
-
-const validateEmail = async (email: string, checkout: ReturnType<typeof useCheckout>) => {
-	const updateResult = await checkout.updateEmail(email);
-	const isValid = updateResult.type !== "error";
-	return { isValid, message: !isValid ? updateResult.error.message : null };
 }
+
+
