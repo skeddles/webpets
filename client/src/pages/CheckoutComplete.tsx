@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import useApiRequest from '../hooks/ApiRequest';
 
+import Loading from '../components/Loading';
+
 import '../css/CheckoutComplete.css';
 
 
@@ -30,7 +32,7 @@ export default function CheckoutComplete({}: CheckoutCompleteProps) {
 
 	return (<div className="CheckoutComplete">
 
-		{status == 'loading' && <h1>Loading...</h1>}
+		{status == 'loading' && <Loading />}
 
 		{status == 'error' && <>
 			<h1>Something went wrong</h1>
@@ -40,6 +42,7 @@ export default function CheckoutComplete({}: CheckoutCompleteProps) {
 		{status == 'complete' && <>
 			<h1>Thank you for your purchase!</h1>
 			<p>Your order is being processed. You will receive an email confirmation shortly.</p>
+			<Loading />
 		</>}
 
 		

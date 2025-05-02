@@ -5,6 +5,7 @@ import useApiRequest from '../hooks/ApiRequest';
 import { useAppState } from '../hooks/AppState';
 
 import CheckoutForm from '../components/CheckoutForm';
+import Loading from '../components/Loading';
 
 interface CheckoutProps {}
 
@@ -23,6 +24,7 @@ export default function Checkout({}: CheckoutProps) {
 
 	return (<div className="Checkout">
 		<h1>Checkout</h1>
+		<Loading />
 	    <CheckoutProvider
 			stripe={stripePromise}
 			options={{

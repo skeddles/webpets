@@ -1,0 +1,80 @@
+.Loading {
+	width: 300px;
+	height: 300px;
+	margin: 50px auto;
+	position: relative;
+	user-select: none;
+	
+	/* ceneterd in parent*/
+	.text {
+		text-align: center;
+		font-size: 3em;
+		color: var(--secondary);
+
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+		width: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+
+		font-family: "Dosis", sans-serif;
+		font-optical-sizing: auto;
+		font-weight: 800;
+		font-style: normal;
+
+		span {
+			animation: waving-letters 1.2s ease-in-out infinite;
+			&:nth-child(1) { animation-delay: 0s; }
+			&:nth-child(2) { animation-delay: 0.1s; }
+			&:nth-child(3) { animation-delay: 0.2s; }
+			&:nth-child(4) { animation-delay: 0.3s; }
+			&:nth-child(5) { animation-delay: 0.4s; }
+			&:nth-child(6) { animation-delay: 0.5s; }
+			&:nth-child(7) { animation-delay: 0.6s; }
+		}
+	}
+
+	
+
+	
+
+	svg {
+		width: 100%;
+		height: 100%;
+		/* animation: rotate 6s linear infinite; */
+	}
+
+	.line {
+		stroke: var(--secondary);
+		stroke-width: 0.4em;
+		fill: none;
+		stroke-linecap: round;
+		stroke-dasharray: 100 500; /* Adjust first number for line length */
+		animation: loading-animation 2s linear infinite;
+	}
+}
+  
+
+  
+@keyframes loading-animation {
+	to {
+	  	stroke-dashoffset: -600; /* Matches total path length */
+	}
+}
+
+@keyframes rotate {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(-360deg);
+	}
+}
+
+@keyframes waving-letters {
+	0%, 50%, 100% { transform: translateY(0);}
+	25% { transform: translateY(-0.25em);	}
+  }

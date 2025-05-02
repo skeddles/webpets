@@ -1,11 +1,9 @@
 // import '../styles/SplashScreen.css';
 
-interface SplashScreenProps {
+import Loading from "./Loading";
 
-}
-
-export default function SplashScreen({}: SplashScreenProps) {
+export default function SplashScreen() {
 	return (<div className="SplashScreen">
-		<h1>Lospec Pixel School</h1>
+		<Loading />
 	</div>);
 }
