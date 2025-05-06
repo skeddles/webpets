@@ -24,6 +24,7 @@
 	},
 	"scripts": {
 		"dev": "tsx src/server.ts",
+		"stripe-webbook": "stripe listen --forward-to localhost:3064/webhook",
 		"start": "node dist/server.js",
 		"build": "tsc --diagnostics"
 	}

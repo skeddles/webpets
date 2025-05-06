@@ -41,4 +41,8 @@ export const Completions = database.collection("completions");
 await Completions.createIndex({ "userId": 1, "type": 1 }, { name:"userId_type_index" });
 await Completions.createIndex({ "userId": 1, "contentId": 1, "type": 1 }, { name:"userId_contentId_type_index" });
 
+// Purchases
+export const Purchases = database.collection("purchases");
+await Purchases.createIndex({ "userId": 1 }, { name:"userId_index" });
+
 export default database;

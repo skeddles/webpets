@@ -1,22 +1,49 @@
+import { addUserPurchases } from '../../queries/user/add-purchases.js';
 import { stripe } from '../stripe.js';
 import Stripe from 'stripe';
+import { insertPurchase } from '../../queries/purchase/insert.js';
+import { getLessonsByPriceId } from '../../queries/lesson/get-many-by-price-id.js';
+
+
 
 type CheckoutSessionCompletedEvent = Stripe.Event & { type: 'checkout.session.completed' };
 type CheckoutSessionAsyncPaymentSucceededEvent = Stripe.Event & { type: 'checkout.session.async_payment_succeeded' };
 type StripeCompleteCheckoutEvent = CheckoutSessionCompletedEvent | CheckoutSessionAsyncPaymentSucceededEvent;
 
+type ExpandedLineItem = Stripe.LineItem & {
+	price: Stripe.Price & { 
+		product: Stripe.Product & { 
+			metadata: { type: string } 
+		} 
+	} 
+};
+
+
 export default async function fulfillCheckout(event:StripeCompleteCheckoutEvent) {
 
 	const sessionId = event.data.object.id
-
-	const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId, {expand: ['line_items']});
-
+	const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId, {expand: ['line_items.data.price.product']});
 
 	if (checkoutSession.payment_status !== 'unpaid') {
 		console.log('Payment was successful:', checkoutSession);
 
-		const purchasedItems = checkoutSession.line_items?.data
+		const lineItems = checkoutSession.line_items?.data as ExpandedLineItem[];
+		
+		const userId = checkoutSession.client_reference_id;
+		if (!userId) throw new Error('Missing user ID in checkout session');
 
-		console.log('Purchased items:', purchasedItems, JSON.stringify(purchasedItems, null, 2));
+		const purchasedProductPriceIds = lineItems.map(li => li.price.id);
+
+		await insertPurchase(userId, sessionId, purchasedProductPriceIds);
+
+		const purchasedLessonsIds = (await getLessonsByPriceId(getPriceIdsOfType(lineItems, 'lesson'))).map(lesson => lesson._id);
+
+		await addUserPurchases(userId, purchasedLessonsIds);
 	}
+}
+
+
+
+function getPriceIdsOfType(lineItems: ExpandedLineItem[], type: string) {
+	return lineItems.filter(li => li.price.product.metadata.type === type).map(li => li.price.id);
 }
