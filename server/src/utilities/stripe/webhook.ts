@@ -21,14 +21,15 @@ router.post('/stripe-webhook', bodyParser.raw({ type: 'application/json' }), asy
 		
 		const stripeEvent = stripe.webhooks.constructEvent(req.body, signature, ENDPOINT_SECRET);
 
-		if (stripeEvent.type in eventHandlers)
+		if (stripeEvent.type in eventHandlers) {
 			await eventHandlers[stripeEvent.type](stripeEvent);
-		else {
+			res.status(200).json({});
+			console.log(' Stripe Event:', stripeEvent.type);
+		} else {
 			res.status(400).json({ error: 'Webhook handler not found' });
+			console.log(' Stripe Event:', stripeEvent.type, '(unhandled)');
 			return;
-		}
-
-		res.status(200).json({});
+		}		
 	} catch (error) {
 		console.error('Error handling stripe webhook:', error);
 		res.status(400).json({ error: 'Webhook Error' });
