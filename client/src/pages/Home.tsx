@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
-import { Link } from "react-router";
 import useApiRequest from '../hooks/ApiRequest';
 import { useAppState } from '../hooks/AppState';
+import LessonList from '../components/LessonList';
 
 import '../css/Home.css';
 
 
 export default function Home() {
-	const { state: { user, lessons, completedLessons}, dispatchState } = useAppState();
+	const { state: { user, lessons }, dispatchState } = useAppState();
 	const apiRequest = useApiRequest();
 
 	console.log('rendering Home');
@@ -28,55 +28,15 @@ export default function Home() {
 		}
 	}
 
-	// lessons.forEach((lesson) => {
-	// 	console.log('lesson', {
-	// 		lesson,
-	// 		purchased: user.purchasedLessons.includes(lesson._id),
-	// 		id: lesson._id,
-	// 		purchasedLessons: user.purchasedLessons,
-	// 		user,
-	// 	});
-	// });
-
 	return (<div className="Home">
 		<h1>Home</h1>
 		
 		{lessons && <>
 			<h2>Your Lessons</h2>
-			<div className="lesson-list">
-				{lessons
-					.filter((lesson) => user.purchasedLessons.includes(lesson._id))
-					.map((lesson) => (
-						<Link 
-							className="lesson" 
-							to={'/lesson/'+lesson.slug} 
-							key={lesson.slug} 
-							state={{ lesson, completed: completedLessons?.includes(lesson._id) }}
-							>
-								<div>{lesson.title}</div>
-								<p>{completedLessons?.includes(lesson._id) ? 'Completed' : 'Not Completed'}</p>
-
-						</Link>
-				))}
-			</div>
+			<LessonList lessons={lessons.filter((lesson) => user.purchasedLessons.includes(lesson._id))} />
 
 			<h2>Shop</h2>
-			<div className="lesson-list">
-				{lessons
-					.filter((lesson) => !user.purchasedLessons.includes(lesson._id))
-					.map((lesson) => (
-						<Link 
-							className="lesson" 
-							to={'/lesson/'+lesson.slug} 
-							key={lesson.slug} 
-							state={{ lesson }}
-							>
-								<div>{lesson.title}</div>
-
-						</Link>
-				))}
-			</div>
-
+			<LessonList lessons={lessons.filter((lesson) => !user.purchasedLessons.includes(lesson._id))} />
 		</>}
 		{!lessons && <div className="loading">Loading...</div>}
 	</div>);
