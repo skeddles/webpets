@@ -3,6 +3,7 @@ import { stripe } from '../stripe.js';
 import Stripe from 'stripe';
 import { insertPurchase } from '../../queries/purchase/insert.js';
 import { getLessonsByPriceId } from '../../queries/lesson/get-many-by-price-id.js';
+import sendDiscordWebhook from '../send-discord-webhook.js';
 
 
 
@@ -20,25 +21,24 @@ type ExpandedLineItem = Stripe.LineItem & {
 
 
 export default async function fulfillCheckout(event:StripeCompleteCheckoutEvent) {
+	try {
+		const sessionId = event.data.object.id;
+		const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId, {expand: ['line_items.data.price.product']});
 
-	const sessionId = event.data.object.id
-	const checkoutSession = await stripe.checkout.sessions.retrieve(sessionId, {expand: ['line_items.data.price.product']});
-
-	if (checkoutSession.payment_status !== 'unpaid') {
-		console.log('Payment was successful:', checkoutSession);
+		if (checkoutSession.payment_status == 'unpaid') throw new Error('Payment status is unpaid');
 
 		const lineItems = checkoutSession.line_items?.data as ExpandedLineItem[];
-		
 		const userId = checkoutSession.client_reference_id;
 		if (!userId) throw new Error('Missing user ID in checkout session');
 
 		const purchasedProductPriceIds = lineItems.map(li => li.price.id);
-
-		await insertPurchase(userId, sessionId, purchasedProductPriceIds);
-
 		const purchasedLessonsIds = (await getLessonsByPriceId(getPriceIdsOfType(lineItems, 'lesson'))).map(lesson => lesson._id);
 
 		await addUserPurchases(userId, purchasedLessonsIds);
+		await insertPurchase(userId, sessionId, purchasedProductPriceIds);
+	} catch (error) {
+		sendDiscordWebhook('ERROR', error);
+		throw error; 
 	}
 }
 

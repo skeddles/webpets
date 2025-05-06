@@ -1,0 +1,1 @@
+type DiscordWebhookIds = 'ERROR' | 'PURCHASE';
