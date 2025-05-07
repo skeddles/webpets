@@ -6,6 +6,7 @@ import { useAppState } from '../hooks/AppState';
 
 import CheckoutForm from '../components/CheckoutForm';
 import Loading from '../components/Loading';
+import { useState } from 'react';
 
 interface CheckoutProps {}
 
@@ -15,16 +16,18 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY as strin
 
 export default function Checkout({}: CheckoutProps) {
 	const { state: { shoppingCart } } = useAppState();
+	const [loading, setLoading] = useState(true);
 	const apiRequest = useApiRequest();
 
 	async function createCheckoutSession() {
 		const {clientSecret} = await apiRequest('shop/checkout', { shoppingCart });
+		setLoading(false);
 		return clientSecret;
 	}
 
 	return (<div className="Checkout">
 		<h1>Checkout</h1>
-		<Loading />
+		{loading && <Loading />}
 	    <CheckoutProvider
 			stripe={stripePromise}
 			options={{
