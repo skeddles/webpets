@@ -4,12 +4,14 @@ import ChevronRightIcon from '../assets/svg/chevron-right.svg?react';
 import Button from './Button';
 import { useNavigate } from 'react-router';
 
+import TrashCanIcon from '../assets/svg/trash-can.svg?react';
+
 interface CartProps {
 	open: boolean;
 }
 
 export default function ShoppingCartPanel({open}: CartProps) {
-	const { state: { shoppingCart } } = useAppState();
+	const { state: { shoppingCart }, dispatchState } = useAppState();
 	const navigate = useNavigate();
 
 	let contentClass = "content";
@@ -37,6 +39,11 @@ export default function ShoppingCartPanel({open}: CartProps) {
 				<Button onClick={() => navigate('/checkout')}>
 					Checkout <ChevronRightIcon />
 				</Button>
+
+				<div onClick={() => dispatchState({ type: 'CLEAR_SHOPPING_CART'})} className="clear-cart">
+					<TrashCanIcon />
+					Clear Cart 
+				</div>
 
 			</>}
 		</div>

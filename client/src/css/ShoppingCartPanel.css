@@ -2,4 +2,22 @@
 	.Button {
 		margin-top:2em;
 	}
+
+	.clear-cart {
+
+		margin: 2em auto;
+		padding: 0.5em 1em;
+		cursor: pointer;
+		border-radius: 0.5em;
+
+		svg {
+			margin-right: 0.5em;
+			path {
+			fill: var(--text);
+		}}
+
+		&:hover {
+			background: var(--secondary);
+		}
+	}
 }

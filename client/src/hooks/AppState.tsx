@@ -12,7 +12,8 @@ type SetUserAction = {type: 'SET_USER'; user: User};
 type SetUnauthenticatedAction = {type: 'SET_UNAUTHENTICATED'};
 type SetToken = {type: 'SET_TOKEN'; token: string};
 type SetLessons = {type: 'SET_LESSONS'; lessons: Lesson[]; completedLessons: string[] | null};
-type Action = SetUserAction | SetUnauthenticatedAction | SetToken | SetLessons;
+type ClearShoppingCart = {type: 'CLEAR_SHOPPING_CART'};
+type Action = SetUserAction | SetUnauthenticatedAction | SetToken | SetLessons | ClearShoppingCart;
 
 
 type StateContext = {
@@ -40,6 +41,8 @@ const stateReducer = (state: AppState, action: Action): AppState => {
 		return { ...state, token: action.token };
 	if (action.type === 'SET_LESSONS')
 		return { ...state, lessons: action.lessons, completedLessons: action.completedLessons };
+	if (action.type === 'CLEAR_SHOPPING_CART')
+		return { ...state, shoppingCart: [] };
 
 		
 	throw new Error(`Unhandled action type: ${(action as Action).type}`);
