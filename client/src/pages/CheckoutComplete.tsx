@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { useAppState } from '../hooks/AppState';
 import useApiRequest from '../hooks/ApiRequest';
 import LessonList from '../components/LessonList';
 import Loading from '../components/Loading';
@@ -16,6 +17,7 @@ type CheckoutSessionInfo = {
 interface CheckoutCompleteProps { }
 
 export default function CheckoutComplete({ }: CheckoutCompleteProps) {
+	const { dispatchState } = useAppState();
 	const apiRequest = useApiRequest();
 
 	const [checkoutSession, setCheckoutSession] = useState<CheckoutSessionInfo>({
@@ -40,7 +42,11 @@ export default function CheckoutComplete({ }: CheckoutCompleteProps) {
 		});
 
 		console.log('Checkout session:', result);
-		return result.status === 'complete' && result.paymentStatus === 'paid';
+		if (result.status === 'complete' && result.paymentStatus === 'paid') {
+			dispatchState({ type: 'CLEAR_SHOPPING_CART'});
+			return true;
+		}
+		return false;
 	}, [apiRequest]);
 
 	usePolling(getCheckoutSession);
