@@ -26,8 +26,9 @@ export default async function fulfillCheckout(event:StripeCompleteCheckoutEvent)
 		const purchasedProductPriceIds = lineItems.map(li => li.price.id);
 		const purchasedLessonsIds = (await getLessonsFromLineItems(checkoutSession)).map(lesson => lesson._id);
 
-		await addUserPurchases(userId, purchasedLessonsIds);
 		await insertPurchase(userId, sessionId, purchasedProductPriceIds);
+		await addUserPurchases(userId, purchasedLessonsIds);
+		
 		console.log('Checkout session fulfilled');
 		sendCompletedWebook(event);
 	} catch (error) {
