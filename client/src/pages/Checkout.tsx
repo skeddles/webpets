@@ -16,16 +16,22 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY as strin
 
 export default function Checkout({}: CheckoutProps) {
 	const { state: { shoppingCart } } = useAppState();
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(shoppingCart.length > 0);
 	const apiRequest = useApiRequest();
-	const [skippedItems, setSkippedItems] = useState<number>(0);
+
 	const [error, setError] = useState<string | null>(null);
 
 	async function createCheckoutSession() {
 		try {
+			if (shoppingCart.length == 0) {
+				setLoading(false);
+				setError('Your cart is empty. Please add items to your cart before proceeding to checkout.');
+				return;
+			}
+
 			const result = await apiRequest('shop/checkout', { shoppingCart });
 			setLoading(false);
-			setSkippedItems(result.skippedItems);
+			setError('Some items in your cart are already purchased. They will not be included in the checkout.');
 			return result.clientSecret;
 		} catch (error) {
 			console.error('Error creating checkout session:', error);
@@ -43,8 +49,7 @@ export default function Checkout({}: CheckoutProps) {
 	return (<div className="Checkout">
 		<h1>Checkout</h1>
 		{loading && <Loading />}
-		{!loading && skippedItems > 0 && <p className="warning">Some items in your cart are already purchased. They will not be included in the checkout.</p>}
-	    {!loading && error && <p className="error">{error}</p>}
+	    {error && <p>{error}</p>}
 		<CheckoutProvider
 			stripe={stripePromise}
 			options={{
