@@ -18,17 +18,34 @@ export default function Checkout({}: CheckoutProps) {
 	const { state: { shoppingCart } } = useAppState();
 	const [loading, setLoading] = useState(true);
 	const apiRequest = useApiRequest();
+	const [skippedItems, setSkippedItems] = useState<number>(0);
+	const [error, setError] = useState<string | null>(null);
 
 	async function createCheckoutSession() {
-		const {clientSecret} = await apiRequest('shop/checkout', { shoppingCart });
-		setLoading(false);
-		return clientSecret;
+		try {
+			const result = await apiRequest('shop/checkout', { shoppingCart });
+			setLoading(false);
+			setSkippedItems(result.skippedItems);
+			return result.clientSecret;
+		} catch (error) {
+			console.error('Error creating checkout session:', error);
+			setLoading(false);
+			if (error instanceof Error && error.message == 'No purchasable items') {
+				setError('There were no purchasable items in your cart. This means either you cart is empty, or all the items you have added are either nonexistant or you already own them. Please check your cart and try again.');
+			}
+			else {
+				setError('An error occurred while creating the checkout session. Please try again later.');
+			}
+			throw error;
+		}
 	}
 
 	return (<div className="Checkout">
 		<h1>Checkout</h1>
 		{loading && <Loading />}
-	    <CheckoutProvider
+		{!loading && skippedItems > 0 && <p className="warning">Some items in your cart are already purchased. They will not be included in the checkout.</p>}
+	    {!loading && error && <p className="error">{error}</p>}
+		<CheckoutProvider
 			stripe={stripePromise}
 			options={{
 				fetchClientSecret: createCheckoutSession,
