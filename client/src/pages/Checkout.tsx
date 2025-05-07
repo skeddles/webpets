@@ -31,7 +31,9 @@ export default function Checkout({}: CheckoutProps) {
 
 			const result = await apiRequest('shop/checkout', { shoppingCart });
 			setLoading(false);
-			setError('Some items in your cart are already purchased. They will not be included in the checkout.');
+			if (result.skippedItems > 0)
+				setError('Some items in your cart are already purchased. They will not be included in the checkout.');
+			
 			return result.clientSecret;
 		} catch (error) {
 			console.error('Error creating checkout session:', error);
