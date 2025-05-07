@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState, useCallback } from 'react';
 import useApiRequest from '../hooks/ApiRequest';
 import LessonList from '../components/LessonList';
 import Loading from '../components/Loading';
+import usePolling from '../hooks/Polling';
 
 import '../css/CheckoutComplete.css';
 
@@ -12,9 +13,9 @@ type CheckoutSessionInfo = {
 	purchasedLessons: Lesson[];
 };
 
-interface CheckoutCompleteProps {}
+interface CheckoutCompleteProps { }
 
-export default function CheckoutComplete({}: CheckoutCompleteProps) {
+export default function CheckoutComplete({ }: CheckoutCompleteProps) {
 	const apiRequest = useApiRequest();
 
 	const [checkoutSession, setCheckoutSession] = useState<CheckoutSessionInfo>({
@@ -24,14 +25,12 @@ export default function CheckoutComplete({}: CheckoutCompleteProps) {
 		purchasedLessons: [],
 	});
 
-	useEffect(() => {getCheckoutSession()}, []);
-	
-	async function getCheckoutSession() {
+	const getCheckoutSession = useCallback(async () => {
 		const urlParams = new URLSearchParams(window.location.search);
 		const sessionId = urlParams.get('session_id');
 		if (!sessionId) throw new Error('No session id found in url');
-		
-		const result = await apiRequest('shop/checkout-status', { sessionId })
+
+		const result = await apiRequest('shop/checkout-status', { sessionId });
 
 		setCheckoutSession({
 			checkoutId: sessionId,
@@ -41,35 +40,42 @@ export default function CheckoutComplete({}: CheckoutCompleteProps) {
 		});
 
 		console.log('Checkout session:', result);
-	}	
+		return result.status === 'complete' && result.paymentStatus === 'paid';
+	}, [apiRequest]);
 
-	const completeAndPaid = checkoutSession.status == 'complete' && checkoutSession.paymentStatus == 'paid';
+	usePolling(getCheckoutSession);
 
-	if (checkoutSession.status == 'loading') return <Loading />;
+	const completeAndPaid = checkoutSession.status === 'complete' && checkoutSession.paymentStatus === 'paid';
+
+	if (checkoutSession.status === 'loading') return <Loading />;
 
 	return (<div className="CheckoutComplete">
-
-		{!completeAndPaid && <>
-			<h1>Your Payment Is Being Processed...</h1>
-			<p>Your payment is currently still being processed. This page will update when it is complete.</p>
-			
-			<div><b>Session ID:</b> {checkoutSession.checkoutId}</div>
-			<div><b>Status:</b> {checkoutSession.status}</div>
-			<div><b>Payment Status:</b> {checkoutSession.paymentStatus}</div>
-			<Loading />
-		</>}
-
-		{completeAndPaid && <>
-			<h1>Thank you for your purchase!</h1>
-			<div><strong>Session ID:</strong> {checkoutSession.checkoutId}</div>
-			<p>Your payment has been successfully processed. You will receive an email confirmation shortly.</p>
-			
-			{checkoutSession.purchasedLessons.length > 0 && <>
-				<h2>New Lessons:</h2>
-				<LessonList lessons={checkoutSession.purchasedLessons} />
-			</>}
-		</>}
-		
+		{!completeAndPaid && <IncompleteCheckout checkoutSession={checkoutSession} />}
+		{completeAndPaid && <Checkout checkoutSession={checkoutSession} />}
 	</div>);
 }
 
+function IncompleteCheckout({ checkoutSession }: { checkoutSession: CheckoutSessionInfo }) {
+	return (<>
+		<h1>Your Payment Is Being Processed...</h1>
+		<p>Your payment is currently still being processed. This page will update when it is complete.</p>
+
+		<div><b>Session ID:</b> {checkoutSession.checkoutId}</div>
+		<div><b>Status:</b> {checkoutSession.status}</div>
+		<div><b>Payment Status:</b> {checkoutSession.paymentStatus}</div>
+		<Loading />
+	</>);
+}
+
+function Checkout({ checkoutSession }: { checkoutSession: CheckoutSessionInfo }) {
+	return (<>
+		<h1>Thank you for your purchase!</h1>
+		<div><strong>Session ID:</strong> {checkoutSession.checkoutId}</div>
+		<p>Your payment has been successfully processed. You will receive an email confirmation shortly.</p>
+
+		{checkoutSession.purchasedLessons.length > 0 && <>
+			<h2>New Lessons:</h2>
+			<LessonList lessons={checkoutSession.purchasedLessons} />
+		</>}
+	</>);
+}

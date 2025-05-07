@@ -11,8 +11,7 @@ export default createRouter(schema, async (req, res) => {
 	
 	const session = await getExpandedCheckoutSession(sessionId);
 	if (!session) throw 'Not found';
-
-
+	
 	const status = session.status;
 	const paymentStatus = session.payment_status;
 
