@@ -9,15 +9,23 @@
 		padding: 0.5em 1em;
 		cursor: pointer;
 		border-radius: 0.5em;
+		color: var(--text-weak);
+		font-size: 0.8em;
 
 		svg {
 			margin-right: 0.5em;
 			path {
-			fill: var(--text);
+			fill: var(--text-weak);
 		}}
 
 		&:hover {
 			background: var(--secondary);
+			color: var(--text);
+			svg {
+				path {
+					fill: var(--text);
+				}
+			}
 		}
 	}
 }
