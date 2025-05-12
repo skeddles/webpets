@@ -9,3 +9,4 @@ Module-level constants are UPPER_SNAKE_CASE.
 Server-side JavaScript imports include the .js extension.
 JSON imports use `assert { type: 'json' }`.
 Server-side route modules use a default export for the router instance.
+Use `react-router` for routing, not `react-router-dom`.
