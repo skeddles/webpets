@@ -11,7 +11,7 @@ export default function Navigation() {
 
 		<nav>
 			<Link to="/">Pets</Link>
-			<Link to="/inventory">Inventory</Link>
+			<Link to="/items">Items</Link>
 		</nav>
 
 

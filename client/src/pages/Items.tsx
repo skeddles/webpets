@@ -1,11 +1,18 @@
-import '../styles/Items.css';
+import '../css/Items.css';
+import { useLoaderData } from 'react-router';
 
-interface ItemsProps {
+export default function Items() {
+	const {items}:{items:Item[]} = useLoaderData();
 
-}
+	if (!items) return <p>Loading...</p>;
 
-export default function Items({}: ItemsProps) {
 	return (<div className="Items">
-	
+		<h1>Your Items</h1>
+		<h5>{items.length} items</h5>
+		<ul>
+			{items.map((item: any) => (
+				<li key={item.id}>{item.name}</li>
+			))}
+		</ul>
 	</div>);
 }
