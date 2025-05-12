@@ -6,12 +6,13 @@ import { router } from './routers/Router';
 import { unregisteredRouter } from './routers/UnregisteredRouter';
 
 import SplashScreen from './components/SplashScreen';
+import ErrorBoundary from './components/ErrorBoundary';
 
 import './css/App.css';
 
 function App() {
 	const { state: { user } } = useContext(AppStateContext);
-    
+
 	const initializeUser = useInitializeUser();
 	const userInitialized = useRef(false);
 
@@ -21,10 +22,22 @@ function App() {
 		initializeUser();
 	}, []);
 
-	if (user == 'loading') return (<SplashScreen />);
-	else if (user == 'unregistered') return (<RouterProvider router={unregisteredRouter} />);
-	else if (typeof user === 'object') return (<RouterProvider router={router} />);
-	else throw new Error('Invalid user state');
+	let content;
+	if (user === 'loading') {
+		content = <SplashScreen />;
+	} else if (user === 'unregistered') {
+		content = <RouterProvider router={unregisteredRouter} />;
+	} else if (typeof user === 'object') {
+		content = <RouterProvider router={router} />;
+	} else {
+		throw new Error('Invalid user state');
+	}
+
+	return (
+		<ErrorBoundary>
+			{content}
+		</ErrorBoundary>
+	);
 }
 
 export default App;

@@ -4,6 +4,7 @@ import LayoutApp from "../layouts/LayoutApp";
 import Home from '../pages/Home';
 import Items from "../pages/Items";
 import PetPage from "../pages/PetPage";
+import NotFound from '../pages/NotFound';
 import { executeApiRequest } from "../util/apiUtils";
 
 export const router = createBrowserRouter([
@@ -22,6 +23,7 @@ export const router = createBrowserRouter([
 				element: <PetPage />,
 				loader: async ({ params }) => await executeApiRequest('pet/get-by-slug', { slug: params.slug })
 			},
+			{ path: "*", element: <NotFound /> }
 		],
 	},
 ]);
