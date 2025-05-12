@@ -3,4 +3,28 @@
 	flex-wrap: wrap;
 	justify-content: center;
 	gap: 20px;
+
+	a, a:visited {
+		text-decoration: none;
+		border-radius: 1em;
+		padding: 1em;
+
+		div {
+			font-size: 1.5rem;
+			text-align: center;
+			font-family: "Cherry Bomb One", sans-serif;
+			font-optical-sizing: auto;
+			font-weight: 800;
+			font-style: normal;
+		}
+
+		img {
+			width: 256px;
+			height: 256px;
+		}
+
+		&:hover {
+			outline: 0.25em solid var(--theme);
+		}
+	}
 }

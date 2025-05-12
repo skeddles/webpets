@@ -14,9 +14,9 @@ export default function PetsList({pets}: PetsListProps) {
                 className="pet" 
                 to={'/pet/'+pet.slug} 
                 key={pet.slug} 
-                >
-                    <div>{pet.name}</div>
-
+                >	
+					<div>{pet.name}</div>
+					<img src="/pet.png"/>
             </Link>
         ))}
     </div>);
