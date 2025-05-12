@@ -1,0 +1,16 @@
+.Footer {
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	padding: 1em;
+	box-sizing: border-box;
+
+	.logo {
+		margin: 0;
+		color: var(--header-text);
+		text-shadow: 0.125em 0.125em 0 var(--shadow);
+	}
+
+}

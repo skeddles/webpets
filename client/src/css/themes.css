@@ -1,0 +1,52 @@
+:root {
+
+	color-scheme: light dark;
+
+	&[data-theme='blue'] {
+		--theme: #1b44ff;
+		--header-text: #ffffff;
+		--shadow: #1a18a9;
+		--text: #051344;
+		--bg: #ffffff;
+	}
+
+	&[data-theme='purple'] {
+		--theme: #b22efe;
+		--header-text: #ffffff;
+		--shadow: #561799;
+		--text: #ffffff;
+		--bg: #ffffff;
+	}
+
+	&[data-theme='green'] {
+		--theme: #96f52a;
+		--header-text: #ffffff;
+		--shadow: #087620;
+		--text: #ffffff;
+		--bg: #ffffff;
+	}
+
+	&[data-theme='red'] {
+		--theme: #ff432a;
+		--header-text: #ffffff;
+		--shadow: #851010;
+		--text: #ffffff;
+		--bg: #ffffff;
+	}
+
+	&[data-theme='yellow'] {
+		--theme: #f2e600;
+		--header-text: #ffffff;
+		--shadow: #885a04;
+		--text: #ffffff;
+		--bg: #ffffff;
+	}
+
+	&[data-theme='pink'] {
+		--theme: #ff4680;
+		--header-text: #ffffff;
+		--shadow: #8b0c3e;
+		--text: #ffffff;
+		--bg: #ffffff;
+	}
+}

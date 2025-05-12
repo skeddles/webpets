@@ -1,0 +1,41 @@
+.ThemeSelector {
+
+	display: flex;
+	flex-direction: column;
+
+	h4 {
+		margin: 0 0 0.5em;
+		color: var(--header-text);
+		text-shadow: 0.125em 0.125em 0 var(--shadow);
+	}
+
+	.themes {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(1em, 1fr));
+		gap: 1em;
+
+		button {
+			width: 2em;
+			height: 2em;
+			border: solid 0.25em var(--bg);
+			border-radius: 1em;
+			cursor: pointer;
+			transition: transform 50ms ease-in-out;
+			box-shadow: 0.125em 0.125em 0 var(--shadow);
+
+			&:hover {
+				transform: scale(1.2);
+			}
+			&:active {
+				transform: scale(0.8);
+			}
+			&:focus {
+				outline: none;
+			}
+			&:focus-visible {
+				outline: 2px solid var(--primary);
+				outline-offset: 2px;
+			}
+		}
+	}
+}
