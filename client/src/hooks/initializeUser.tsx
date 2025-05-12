@@ -22,7 +22,7 @@ export function useInitializeUser () {
 			if (!response.ok) throw new Error('request failed');
 			const data = await response.json();
 			
-			dispatchState({type: 'SET_USER', user: data.user});
+			dispatchState({type: 'SET_USER', user: data.user, pets: data.pets});
 
 			console.log('initialized user', data);
 		} catch (error) {

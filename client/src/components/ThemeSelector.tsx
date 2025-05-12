@@ -2,16 +2,16 @@ import { useState, useEffect } from 'react';
 
 import Dropdown from './Dropdown';
 
-type Theme = 'light' | 'dark';
+type Theme = 'blue' | 'yellow' | 'green' | 'red' | 'purple' | 'pink';
 
 export default function ThemeSelector() {
-	const [theme, setTheme] = useState<Theme>('dark');
+	const [theme, setTheme] = useState<Theme>('blue');
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme)
     }, [theme])
 
-	const themes:Theme[] = ['light', 'dark'];
+	const themes:Theme[] = ['blue', 'yellow', 'green', 'red', 'purple', 'pink'];
 
 	return (<div className="ThemeSelector">
 		<h4>Theme</h4>

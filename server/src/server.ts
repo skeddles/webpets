@@ -1,7 +1,9 @@
 import app from './app.js';
 import sendDiscordWebhook from './utilities/send-discord-webhook.js';
+import CONFIG from '../config.json' assert {type: 'json'};
 
-const port = parseInt(process.env.PORT || '3064');
+const port = parseInt(CONFIG.port, 10);
+
 const host = process.argv.includes('--host') ? '0.0.0.0' : 'localhost';
 
 app.listen(port, host, () => {

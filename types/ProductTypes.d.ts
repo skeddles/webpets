@@ -1,1 +1,0 @@
-type ProductType = 'lesson';

@@ -1,89 +1,60 @@
 .Navigation {
-	width: var(--sidebar-width);
-	overflow: hidden;
-	transition: width 100ms ease-in-out;
-	z-index:10;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	padding: 1em;
+	box-sizing: border-box;
+
+	background-color: var(--theme);
+	color: var(--header-text);
+
 	user-select: none;
 
-	position: fixed;
-	top: 0;
-	left: 0;
-	bottom: 0;
+	.logo {
+		margin: 0;
+		text-shadow: 0.125em 0.125em 0 var(--shadow);
+	}
 
-	.header {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: var(--sidebar-width);
+	nav {
 		display: flex;
-		justify-content: flex-start;
-		align-items: center;
-		padding-top: 0.5em;
+		flex-direction: row;
+		gap: 1rem;
 
-		.page-top-bar {
-			background: var(--bg-inset); 
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100vw;
-			height: 0;
-			z-index: -1;
-			transition: height 100ms ease-in-out;
-		}
+		a, a:visited {
+			font-size: 2.5em;
+			text-decoration: none;
+			font-weight: 600;
+			color: var(--header-text);
 
-		h1 {
-			padding-left: 1rem;
-			font-size: 2rem;
-			margin: 0;
-			line-height: 0.9;
+			font-family: "Cherry Bomb One", sans-serif;
+			font-optical-sizing: auto;
+			font-weight: 800;
+			font-style: normal;
 
-		}
-
-		button {
-			margin: 0.5em;
-			font-size: 1.1em;
-			background: transparent;
-			border: none;
-			color: var(--text-weak);
-			svg path {fill: var(--text-weak);}
-
-
-			padding: 0.5em;
-			border-radius: 0.5em;
-
-			svg path {fill: var(--text-weak);}
+			text-shadow: 0.125em 0.125em 0 var(--shadow);
+			transition: transform 50ms cubic-bezier(.47,3,.41,.8);
+		
 			
+			position: relative;
 
 			&:hover {
-				background-color: var(--secondary);
-				color: var(--text);
-				svg path {fill: var(--text);}
+				
+				transform: scale(1.4) rotate(-5deg);
+				transition: transform 50ms cubic-bezier(.47,3,.41,.8);
+				animation: wobble 2s ease-in-out infinite;
 			}
 		}
 	}
-
-	.content {
-		margin-top: 4em;
-		display: flex;
-		flex-direction: column;
-		width: var(--sidebar-width);
-		padding: 1em;
-		box-sizing: border-box;
-	}
-
-	&:not(.open) {
-		width: 0;
-	}
 }
 
-@media (max-width: 1200px) { /* 40 + 12 + 12 + 12 + 12 */
-	.Navigation .header .page-top-bar {
-		height: calc(100% + 0.5em);
+/* wobble animation moves up and down in a wave-like motion */
+@keyframes wobble {
+	0%, 100% {
+		top: 0;
 	}
-}
+	50% {
+		top: -0.25em;
+	}
 
-@media (max-width: 1200px) { /* (40em + 12em + 12em) * 18px */
-	.Navigation {
-		background: var(--bg-inset);
-	}
-} 
+}

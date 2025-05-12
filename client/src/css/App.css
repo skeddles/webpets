@@ -1,9 +1,22 @@
 .App {
 
 	display: flex;
-	justify-content: center;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	min-height: 100vh;
 
 	.tab {
-		width: var(--content-width);
+		width: calc(100% - 2em);
+		margin: 1em 1em;
+		background-color: var(--bg);
+		flex-grow: 1;
+		border-radius: 1em;
+		border-top: 0.25em solid var(--shadow);
+
+		& > div {
+			width: 800px;
+			margin: 0 auto;
+		}
 	}
 }

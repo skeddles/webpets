@@ -3,17 +3,14 @@ import { createContext, useContext, useReducer, FC, ReactNode } from 'react';
 type AppState = {
 	user: User | 'loading' | 'unregistered';
 	token: string | null;
-	lessons: Lesson[] | null;
-	completedLessons: string[] | null;
-	shoppingCart: ProductInCart[];
+	pets: Pet[] | null;
 };
 
-type SetUserAction = {type: 'SET_USER'; user: User};
+type SetUserAction = {type: 'SET_USER'; user: User, pets: Pet[]};
 type SetUnauthenticatedAction = {type: 'SET_UNAUTHENTICATED'};
 type SetToken = {type: 'SET_TOKEN'; token: string};
-type SetLessons = {type: 'SET_LESSONS'; lessons: Lesson[]; completedLessons: string[] | null};
-type ClearShoppingCart = {type: 'CLEAR_SHOPPING_CART'};
-type Action = SetUserAction | SetUnauthenticatedAction | SetToken | SetLessons | ClearShoppingCart;
+type SetPets = {type: 'SET_PETS'; pets: Pet[];};
+type Action = SetUserAction | SetUnauthenticatedAction | SetToken | SetPets;
 
 
 type StateContext = {
@@ -25,24 +22,21 @@ type UseStateReturnType = {
 	state: {
 		user: User, 
 		token: string, 
-		lessons: Lesson[] | null,
-		completedLessons: string[] | null,
-		shoppingCart: ProductInCart[],
+		pets: Pet[],
 	};
 	dispatchState: (action: Action) => void, 
 }
 
 const stateReducer = (state: AppState, action: Action): AppState => {
 	if (action.type === 'SET_USER') 
-		return { ...state, user: action.user };
+		return { ...state, user: action.user , pets: action.pets};
 	if (action.type === 'SET_UNAUTHENTICATED')
 		return { ...state, user: 'unregistered' };
 	if (action.type === 'SET_TOKEN') 
 		return { ...state, token: action.token };
-	if (action.type === 'SET_LESSONS')
-		return { ...state, lessons: action.lessons, completedLessons: action.completedLessons };
-	if (action.type === 'CLEAR_SHOPPING_CART')
-		return { ...state, shoppingCart: [] };
+	if (action.type === 'SET_PETS')
+		return { ...state, pets: action.pets};
+
 
 		
 	throw new Error(`Unhandled action type: ${(action as Action).type}`);
@@ -51,15 +45,7 @@ const stateReducer = (state: AppState, action: Action): AppState => {
 const initialState: AppState = {
 	user: 'loading',
 	token: null,
-	lessons: null,
-	completedLessons: null,
-	shoppingCart: [
-		{
-			id: '68129d14aa680c4fc357ac3b',
-			type: 'lesson',
-			price: 499,
-		}
-	],
+	pets: null,
 };
 
 export const AppStateContext = createContext<StateContext>({

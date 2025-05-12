@@ -28,22 +28,13 @@ export function id (id:IdOrString) {
 export const Users = database.collection("users");
 await Users.createIndex({ "username": 1 },{ name:"username_lowercase_index", unique: true, collation: {locale: 'en',strength: 2}});
 
-// Lessons
-export const Lessons = database.collection("lessons");
-await Lessons.createIndex({ "slug": 1 }, { name:"slug_lowercase_index", unique: true });
-await Lessons.createIndex({ "pageId": 1 }, { name:"pageId_lowercase_index", unique: true });
+// Pets
+export const Pets = database.collection("pets");
+await Pets.createIndex({ "userId": 1 },{ name:"userId_index" });
+await Pets.createIndex({ "slug": 1 },{ name:"slug_index", unique: true, collation: {locale: 'en',strength: 2}});
 
-// Assignments
-export const Assignments = database.collection("assignments");
-
-// Completions
-export const Completions = database.collection("completions");
-await Completions.createIndex({ "userId": 1, "type": 1 }, { name:"userId_type_index" });
-await Completions.createIndex({ "userId": 1, "contentId": 1, "type": 1 }, { name:"userId_contentId_type_index" });
-
-// Purchases
-export const Purchases = database.collection("purchases");
-await Purchases.createIndex({ "userId": 1 }, { name:"userId_index" });
-await Purchases.createIndex({ "checkoutSessionId": 1 }, { name:"checkoutSessionId_index", unique: true });
+// Items
+export const Items = database.collection("items");
+await Items.createIndex({ "userId": 1 },{ name:"userId_index" });
 
 export default database;

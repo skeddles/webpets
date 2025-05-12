@@ -1,7 +1,7 @@
 import {Router} from 'express';
 import { stripe } from '../stripe.js';
 import getEnvironmentVariable from '../get-environment-variable.js';
-import fulfillCheckout from './fulfill-checkout.js';
+
 import bodyParser from 'body-parser';
 
 const ENDPOINT_SECRET = getEnvironmentVariable('STRIPE_WEBHOOK_SECRET');
@@ -10,8 +10,8 @@ const router = Router();
 
 
 const eventHandlers: Record<string, (id: any) => Promise<void>> = {
-	'checkout.session.completed': fulfillCheckout,
-	'checkout.session.async_payment_succeeded': fulfillCheckout,
+	/*'checkout.session.completed': fulfillCheckout,
+	'checkout.session.async_payment_succeeded': fulfillCheckout,*/
 };
 
 router.post('/stripe-webhook', bodyParser.raw({ type: 'application/json' }), async (req, res) => {

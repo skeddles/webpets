@@ -1,30 +1,20 @@
-import { useState } from 'react';
+
 import { Link } from 'react-router';
 
 import '../css/Navigation.css';
-import Bars from '../assets/svg/bars.svg?react';
-import XMark from '../assets/svg/xmark.svg?react';
 
 export default function Navigation() {
-	const [open, setOpen] = useState(false);
 
-	return (<div className={"Navigation" + (open ? " open" : "")}>
+	return (<div className={"Navigation"}>
+
+		<h1 className="logo">Web Pets</h1>
+
+		<nav>
+			<Link to="/">Pets</Link>
+			<Link to="/inventory">Inventory</Link>
+		</nav>
 
 
-		<div className="header">
-			<div className="page-top-bar"></div>
-
-			<h1>Pixel<br/>School</h1>
-
-			<button className="menu-button" onClick={() => setOpen(!open)}>
-				{open ? <XMark /> : <Bars />}
-			</button>
-		</div>
-
-		<div className="content">
-			<Link to="/">home</Link> <br />
-			<Link to="/lesson/test-lesson">test Lessons</Link> <br />
-			<Link to="/admin">Admin</Link> <br />
-		</div>
+		<Link to="/account">Account</Link>
 	</div>);
 }

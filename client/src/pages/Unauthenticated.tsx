@@ -6,6 +6,6 @@ interface UnauthenticatedProps {
 
 export default function Unauthenticated({}: UnauthenticatedProps) {
 	return (<div className="Unauthenticated">
-		<p>pixel school ad blurb</p>
+		<p>web pets, sign up today</p>
 	</div>);
 }
